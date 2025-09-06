@@ -1,0 +1,1203 @@
+/* Universal Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* General Body Styling */
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Main Container */
+.main-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 250px;
+  background-color: #2b7a78; /* Teal color */
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensures logout stays at the bottom */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  flex-grow: 1; /* Allow the links to take up available space */
+}
+
+.sidebar li {
+  margin-bottom: 15px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: block;
+  transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #20665b; /* Darker teal for hover effect */
+}
+
+/* Ensure Logout Link is at the Bottom */
+.sidebar .logout {
+  margin-top: auto; /* Push the logout link to the bottom */
+  font-weight: bold;
+  padding-top: 20px;
+}
+
+.logout a {
+  text-decoration: none;
+  color: #f4a261; /* Highlight Logout link with an orange color */
+  font-size: 1.1rem;
+}
+
+.logout a:hover {
+  color: #e07a3e; /* Darker orange for hover effect */
+}
+
+/* Content Section */
+.content {
+  flex: 1;
+  padding: 30px;
+  background-color: #f9f9f9;
+}
+
+/* Header Styles */
+header {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+  font-size: 2.8rem;
+  color: #2b7a78; /* Teal color */
+}
+
+p {
+  font-size: 1.2rem;
+  margin: 20px auto;
+  color: #555;
+  max-width: 800px;
+  text-align: center;
+}
+
+/* Buttons */
+.button-container {
+  margin-top: 40px;
+}
+
+a {
+  text-decoration: none;
+  padding: 15px 30px;
+  font-size: 1rem;
+  border-radius: 25px;
+  margin: 0 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-primary {
+  background-color: #2b7a78; /* Teal color */
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+  background-color: #20665b; /* Darker shade of teal */
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: #f4a261; /* Orange color */
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary:hover {
+  background-color: #e07a3e; /* Darker shade of orange */
+  transform: translateY(-2px);
+}
+
+/* Form Page Styling (Login, Signup, Medical History) */
+.form-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.form-container {
+  max-width: 500px;
+  width: 100%;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2b7a78; /* Teal color */
+  font-size: 1.8rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+  font-size: 1rem;
+}
+
+/* Inputs, Textareas, and Selects */
+input, select, textarea {
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #2b7a78; /* Teal color for focus */
+  outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #aaa;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Submit Button */
+button {
+  padding: 15px;
+  background-color: #2b7a78; /* Teal color */
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #20665b; /* Darker shade of teal */
+  transform: translateY(-2px);
+}
+
+/* Text Styling */
+p {
+  text-align: center;
+  margin-top: 15px;
+  line-height: 1.5;
+}
+
+p a {
+  color: #2b7a78;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+p a:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+/* Form Group for Physical Attributes (Height and Weight) */
+.form-group {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.form-group > div {
+  flex: 1;
+}
+
+.form-group input {
+  width: 100%;
+}
+
+/* Chatbot Button Styling */
+#chatbot-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+}
+
+.chatbot-btn {
+  padding: 15px 25px;
+  background-color: #2b7a78;
+  color: white;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatbot-btn:hover {
+  background-color: #20665b;
+  transform: scale(1.1);
+}
+
+.chatbot-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #f4a261; /* Focus effect with orange outline */
+}
+
+/* Chatbot Body */
+.chat-body {
+  height: 300px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* User message styling */
+.message.user {
+  align-self: flex-end;
+  background-color: #00796b;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  max-width: 70%;
+}
+
+/* AI response styling */
+.message.ai {
+  align-self: flex-start;
+  background-color: #e0f7fa;
+  color: #004d40;
+  padding: 10px 15px;
+  border-radius: 10px;
+  max-width: 70%;
+  font-weight: bold;
+}
+
+/* Chatbot Window Styling */
+#chatbot-window {
+  display: none;
+  position: fixed;
+  bottom: 80px;
+  right: 30px;
+  background-color: white;
+  width: 320px;
+  height: 400px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  z-index: 1000;
+  overflow-y: auto;
+  transition: all 0.3s ease-in-out;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.chat-header h3 {
+  font-size: 16px;
+  color: #2b7a78;
+  font-weight: 600;
+}
+
+.close-chatbot-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #2b7a78;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-chatbot-btn:hover {
+  color: #e07a3e;
+}
+
+.chat-body {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.chat-body p {
+  margin-bottom: 15px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.chat-body .bot-msg {
+  background-color: #2b7a78;
+  color: white;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.chat-body .user-msg {
+  background-color: #f4a261;
+  color: white;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  text-align: right;
+}
+
+.chat-options {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-options button {
+  background-color: #2b7a78;
+  color: white;
+  padding: 12px;
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.chat-options button:hover {
+  background-color: #20665b;
+}
+
+.chat-options button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #f4a261;
+}
+
+/* Footer Styling */
+footer {
+  background-color: #2b7a78;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.footer-links li {
+  margin: 0 20px;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.disclaimer {
+  font-size: 12px;
+  margin-top: 10px;
+  color: #ddd;
+}
+
+/* Responsive Design for Small Screens */
+@media (max-width: 768px) {
+  header {
+    padding: 30px 10px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  .form-container {
+    padding: 20px;
+  }
+
+  a {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+
+  button {
+    padding: 12px;
+  }
+
+  .form-group {
+    flex-direction: column;
+  }
+
+  .form-group > div {
+    width: 100%;
+  }
+
+  .sidebar {
+    width: 200px;
+  }
+
+  #chatbot-window {
+    width: 250px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  .footer-links li {
+    margin: 5px 0;
+  }
+
+  .disclaimer {
+    font-size: 11px;
+    margin-top: 10px;
+  }
+}
+
+/* Healthcare & Mental Health Tips Page */
+.tips-container {
+  max-width: 900px;
+  margin: 30px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tips-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.tips-header h2 {
+  font-size: 2rem;
+  color: #2b7a78; /* Teal color */
+}
+
+.tips-section {
+  margin-top: 20px;
+}
+
+.tips-section h3 {
+  font-size: 1.5rem;
+  color: #f4a261; /* Orange color */
+  margin-bottom: 15px;
+}
+
+.tips-list {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+.tips-list li {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.tips-list li span {
+  font-weight: bold;
+  color: #2b7a78; /* Highlight keywords in teal */
+}
+
+.tips-section p {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #777;
+}
+
+/* Ensure the page looks great on smaller screens */
+@media (max-width: 768px) {
+  .tips-container {
+    padding: 15px;
+  }
+
+  .tips-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .tips-section h3 {
+    font-size: 1.4rem;
+  }
+
+  .tips-list li {
+    font-size: 1rem;
+  }
+}
+
+/* Symptoms Checker Page Styling */
+.content h1 {
+  font-size: 2.5rem;
+  color: #2b7a78;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.content p {
+  font-size: 1.2rem;
+  color: #555;
+  text-align: center;
+  margin-bottom: 20px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Form Styling */
+#symptom-form {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#symptom-form label {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+#symptoms {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  min-height: 100px;
+  resize: vertical;
+  transition: border-color 0.3s ease-in-out;
+}
+
+#symptoms:focus {
+  border-color: #2b7a78;
+  outline: none;
+}
+
+/* Submit Button */
+#symptom-form button {
+  padding: 15px;
+  background-color: #2b7a78;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-top: 15px;
+}
+
+#symptom-form button:hover {
+  background-color: #20665b;
+  transform: translateY(-2px);
+}
+
+/* Results Section */
+#results {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.1rem;
+  color: #444;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .content h1 {
+    font-size: 2rem;
+  }
+
+  .content p {
+    font-size: 1rem;
+  }
+
+  #symptom-form {
+    padding: 20px;
+  }
+
+  #symptom-form button {
+    padding: 12px;
+  }
+
+  #results {
+    padding: 15px;
+    font-size: 1rem;
+  }
+}
+
+
+/* Universal Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* General Body Styling */
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Main Container */
+.main-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 250px;
+  background-color: #2b7a78; /* Teal color */
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  flex-grow: 1; /* Allow the links to take up available space */
+}
+
+.sidebar li {
+  margin-bottom: 15px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: block;
+  transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #20665b; /* Darker teal for hover effect */
+}
+
+/* Ensure Logout Link is at the Bottom */
+.sidebar .logout {
+  margin-top: auto; /* Push the logout link to the bottom */
+  font-weight: bold;
+  padding-top: 20px;
+}
+
+.logout a {
+  text-decoration: none;
+  color: #f4a261; /* Highlight Logout link with an orange color */
+  font-size: 1.1rem;
+}
+
+.logout a:hover {
+  color: #e07a3e; /* Darker orange for hover effect */
+}
+
+/* Content Section */
+.content {
+  flex: 1;
+  padding: 30px;
+  background-color: #f9f9f9;
+}
+
+/* Header Styles */
+header {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+  font-size: 2.8rem;
+  color: #2b7a78; /* Teal color */
+}
+
+p {
+  font-size: 1.2rem;
+  margin: 20px auto;
+  color: #555;
+  max-width: 800px;
+  text-align: center;
+}
+
+/* Buttons */
+.button-container {
+  margin-top: 40px;
+}
+
+a {
+  text-decoration: none;
+  padding: 15px 30px;
+  font-size: 1rem;
+  border-radius: 25px;
+  margin: 0 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-primary {
+  background-color: #2b7a78; /* Teal color */
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+  background-color: #20665b; /* Darker shade of teal */
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: #f4a261; /* Orange color */
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary:hover {
+  background-color: #e07a3e; /* Darker shade of orange */
+  transform: translateY(-2px);
+}
+
+/* Emergency Contacts Section */
+.emergency-list {
+  list-style-type: none;
+  padding-left: 0;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.emergency-list li {
+  margin-bottom: 15px;
+}
+
+.emergency-list li strong {
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+p strong {
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+/* Form Page Styling (Login, Signup, Medical History) */
+.form-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.form-container {
+  max-width: 500px;
+  width: 100%;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2b7a78; /* Teal color */
+  font-size: 1.8rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+  font-size: 1rem;
+}
+
+/* Inputs, Textareas, and Selects */
+input, select, textarea {
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #2b7a78; /* Teal color for focus */
+  outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #aaa;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Submit Button */
+button {
+  padding: 15px;
+  background-color: #2b7a78; /* Teal color */
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #20665b; /* Darker shade of teal */
+  transform: translateY(-2px);
+}
+
+/* Footer Styling */
+footer {
+  background-color: #2b7a78;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.footer-links li {
+  margin: 0 20px;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.disclaimer {
+  font-size: 12px;
+  margin-top: 10px;
+  color: #ddd;
+}
+
+/* Responsive Design for Small Screens */
+@media (max-width: 768px) {
+  header {
+    padding: 30px 10px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  .form-container {
+    padding: 20px;
+  }
+
+  a {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+
+  button {
+    padding: 12px;
+  }
+
+  .form-group {
+    flex-direction: column;
+  }
+
+  .form-group > div {
+    width: 100%;
+  }
+
+  .sidebar {
+    width: 200px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  .footer-links li {
+    margin: 5px 0;
+  }
+
+  .disclaimer {
+    font-size: 11px;
+    margin-top: 10px;
+  }
+}
+/* Help & Support Page Styling */
+.help-section {
+  max-width: 900px;
+  margin: 30px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.help-section h2 {
+  font-size: 1.8rem;
+  color: #2b7a78; /* Teal color */
+  margin-bottom: 20px;
+}
+
+.faq-item {
+  margin-bottom: 20px;
+}
+
+.faq-item h3 {
+  font-size: 1.4rem;
+  color: #f4a261; /* Orange color */
+}
+
+.faq-item p {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.contact-info {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.contact-info li {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.contact-info li a {
+  text-decoration: none;
+  color: #2b7a78;
+}
+
+.contact-info li a:hover {
+  text-decoration: underline;
+}
+
+/* Button Styling */
+.btn-primary {
+  background-color: #2b7a78; /* Teal color */
+  color: white;
+  padding: 15px 30px;
+  font-size: 1rem;
+  border-radius: 25px;
+  margin-top: 20px;
+  transition: all 0.3s ease-in-out;
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background-color: #20665b; /* Darker teal */
+  transform: translateY(-2px);
+}
+
+
+/* Technical Support Form Styling */
+.support-form {
+  max-width: 800px;
+  margin: 30px auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.support-form h2 {
+  font-size: 1.8rem;
+  color: #2b7a78;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-group button {
+  background-color: #2b7a78;
+  color: white;
+  padding: 15px 30px;
+  font-size: 1rem;
+  border-radius: 25px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.form-group button:hover {
+  background-color: #20665b;
+  transform: translateY(-2px);
+}
+
+
+/* Admin Panel Styling */
+.admin-section {
+  width: 100%;
+  max-width: 900px;
+  margin: 40px auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.admin-section h3 {
+  font-size: 2rem;
+  color: #2b7a78;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.admin-section ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+}
+
+.admin-section li {
+  margin: 15px 0;
+}
+
+.admin-section li a {
+  display: inline-block;
+  background-color: #2b7a78;
+  color: #fff;
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  text-decoration: none;
+  border-radius: 25px;
+  transition: all 0.3s ease-in-out;
+}
+
+.admin-section li a:hover {
+  background-color: #20665b;
+  transform: translateY(-2px);
+}
+
+

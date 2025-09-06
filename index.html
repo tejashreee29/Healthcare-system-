@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Healthcare Chatbot</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0f2e4d; /* Consistent Background */
+            color: white;
+            text-align: center;
+        }
+
+        /* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #1a3d5d;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    overflow: visible; /* Ensure nothing is cut off */
+    box-sizing: border-box; /* Include padding in the width calculation */
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Proper spacing */
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap; /* Allows items to move to the next line if needed */
+    justify-content: flex-end;
+    max-width: 100%;
+}
+
+.nav-links li {
+    display: inline;
+    white-space: nowrap; /* Prevents text from breaking */
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 12px;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #4cb5f5;
+}
+
+/* Responsive Navbar */
+@media (max-width: 850px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+        width: 100%;
+    }
+}
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 90vh;
+            padding-top: 80px;
+        }
+
+        .hero h1 {
+            font-size: 50px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Chatbot Button */
+        .chatbot-btn {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #4cb5f5; /* Lighter Blue */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .chatbot-btn:hover {
+            background-color: #8ac6d1;
+        }
+
+        /* "See How AI Healthcare Works" Button */
+        .how-it-works-btn {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #4cb5f5;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+
+        .how-it-works-btn:hover {
+            color: #8ac6d1;
+        }
+
+        /* What Our Website Offers Section */
+        .offers-section {
+            padding: 60px 20px;
+            background-color: #0f2e4d; /* Consistent Background */
+            color: white;
+        }
+
+        .offers-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .offers-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .offer {
+            width: 250px;
+            padding: 20px;
+            background: #1a3d5d; /* Matching Navbar */
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+        }
+
+        .offer img {
+            width: 100%;
+            height: 150px;
+            border-radius: 8px;
+        }
+
+        .offer h3 {
+            font-size: 22px;
+            margin: 15px 0;
+        }
+
+        .offer p {
+            font-size: 16px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0f2e4d;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer a {
+            color: #4cb5f5;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">AI Healthcare</div>
+        <ul class="nav-links">
+            <li><a href="signup.html">Signup</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="healthcare-tips.html">Healthcare Tips</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section with Chatbot -->
+    <div class="hero">
+        <h1>When something feels off, AI can help</h1>
+        <p>We help people figure out health issues and find the right care</p>
+        <button class="chatbot-btn">Talk to AI Chatbot</button>
+    </div>
+
+    <!-- What Our Website Offers Section -->
+    <div class="offers-section">
+        <h2>What Our Website Offers</h2>
+        <div class="offers-container">
+            <div class="offer">
+                <h3>Symptom Checker</h3>
+                <p>Input your symptoms and get AI-powered insights.</p>
+            </div>
+            <div class="offer">          
+                <h3>Medical History</h3>
+                <p>View and update your past medical records.</p>
+            </div>
+            <div class="offer">
+            
+                <h3>AI Chatbot</h3>
+                <p>Get answers to your health-related queries instantly.</p>
+            </div>
+        </div>
+        <a href="how-it-works.html" class="how-it-works-btn">See How AI Healthcare Works →</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 AI Healthcare Chatbot. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a>
+    </div>
+
+</body>
+</html>

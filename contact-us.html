@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script> <!-- JavaScript for form validation -->
+  <style>
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Arial', sans-serif;
+      }
+
+      html, body {
+          height: 100%;
+          width: 100%;
+          background-color: #e0f7fa; /* Solid Background */
+          color: #333;
+          display: flex;
+          flex-direction: column;
+      }
+
+      .main-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          flex: 1;
+          padding: 20px;
+      }
+
+      .content {
+          max-width: 800px;
+          padding: 40px;
+          background: rgba(255, 255, 255, 0.9);
+          border-radius: 12px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          text-align: center;
+      }
+
+      h1 {
+          font-size: 36px;
+          color: #00796b;
+      }
+
+      h2 {
+          color: #004d40;
+          margin-top: 20px;
+      }
+
+      p {
+          font-size: 18px;
+          color: #004d40;
+          margin-bottom: 20px;
+      }
+
+      a {
+          color: #00796b;
+          text-decoration: none;
+      }
+
+      a:hover {
+          text-decoration: underline;
+      }
+
+      /* Form Styles */
+      label {
+          font-weight: bold;
+          display: block;
+          margin-top: 10px;
+      }
+
+      input, textarea {
+          width: 100%;
+          padding: 10px;
+          margin-top: 5px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+      }
+
+      button {
+          background-color: #00796b;
+          color: white;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          margin-top: 10px;
+      }
+
+      button:hover {
+          background-color: #005a4f;
+      }
+
+      /* Hamburger Menu */
+      .hamburger-menu {
+          position: fixed;
+          top: 20px;
+          left: 20px;
+          cursor: pointer;
+          font-size: 30px;
+          color: #00796b;
+          z-index: 10;
+      }
+
+      .hamburger-popup {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 280px;
+          background-color: #e0f7fa;
+          color: #333;
+          padding: 40px;
+          box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+          transition: transform 0.3s ease-in-out;
+          transform: translateX(-100%);
+          overflow-y: auto;
+      }
+
+      .hamburger-popup.active {
+          transform: translateX(0);
+          display: block;
+      }
+
+      .hamburger-popup ul {
+          list-style: none;
+          padding: 0;
+      }
+
+      .hamburger-popup ul li {
+          margin: 20px 0;
+          font-size: 20px;
+      }
+
+      .hamburger-popup ul li a {
+          color: #004d40;
+          text-decoration: none;
+          display: block;
+          font-weight: bold;
+      }
+
+      .hamburger-popup ul li a:hover {
+          text-decoration: underline;
+          color: #00796b;
+      }
+
+      .close-menu {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          cursor: pointer;
+          font-size: 30px;
+          color: #ff5733;
+      }
+
+      footer {
+          text-align: center;
+          padding: 10px;
+          font-size: 14px;
+      }
+  </style>
+</head>
+<body>
+
+  <!-- Hamburger Menu -->
+  <div class="hamburger-menu" onclick="toggleMenu()">☰</div>
+
+  <div class="main-container">
+    <div class="content">
+      <h1>Contact Us</h1>
+      <p>If you have any questions or feedback, feel free to reach out to us:</p>
+
+      <h2>Email:</h2>
+      <p><a href="mailto:support@yourwebsite.com">support@yourwebsite.com</a></p>
+
+      <h2>Phone:</h2>
+      <p><a href="tel:+15551234567">📞 +1 (555) 123-4567</a></p>
+
+      <h2>Address:</h2>
+      <p>🏢 123 Your Street, Your City, Your Country</p>
+
+      <h2>Contact Form:</h2>
+      <form id="contactForm" action="submit_form.php" method="post" autocomplete="off">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" placeholder="Type your message here..." required></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div id="hamburger-popup" class="hamburger-popup">
+    <div class="close-menu" onclick="toggleMenu()">&times;</div>
+    <ul>
+      <li><a href="index.html">Homepage</a></li>
+      <li><a href="aichatbot.html">AI Chatbot</a></li>
+      <li><a href="symptoms-checker.html">Symptoms Checker</a></li>
+      <li><a href="medicalhistory.html">Medical History Form</a></li>
+      <li><a href="healthcare-tips.html">Healthcare & Mental Health Tips</a></li>
+      <li><a href="emergency-contacts.html">Emergency Contacts</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+
+  <footer>
+    <p>Disclaimer: The Healthcare Chatbot provides helpful and informative suggestions for your health. However, it is not intended to replace professional medical advice.</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+        document.getElementById('hamburger-popup').classList.toggle('active');
+    }
+
+    document.getElementById("contactForm").addEventListener("submit", function(event) {
+      let name = document.getElementById("name").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let message = document.getElementById("message").value.trim();
+
+      if (name === "" || email === "" || message === "") {
+        alert("Please fill out all fields.");
+        event.preventDefault();
+      } else {
+        alert("Thank you! Your message has been submitted.");
+      }
+    });
+  </script>
+
+</body>
+</html>

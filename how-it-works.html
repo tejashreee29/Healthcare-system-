@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - AI Healthcare Chatbot</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a3d5d;
+            color: white;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px 0;
+        }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #0f2e4d;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Logo on left, links on right */
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            padding-left: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px; /* Space between links */
+            padding-right: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: #4cb5f5; /* Light blue hover effect */
+            transform: scale(1.05);
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Steps Section (Like Your Screenshot) */
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .step-box {
+            background-color: #0f2e4d;
+            padding: 20px;
+            width: 70%;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .step-box:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0f2e4d;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">AI Healthcare</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="signup.html">Signup</a>
+            <a href="login.html">Login</a>
+            <a href="healthcare-tips.html">Healthcare Tips</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+
+        <section id="how-it-works">
+            <h1>How It Works</h1>
+            <p style="text-align: center;">Our AI Healthcare Chatbot follows a simple step-by-step process to provide intelligent medical assistance.</p>
+        </section>
+
+        <!-- Step-by-Step Process (Based on Your Screenshot) -->
+        <section id="steps">
+            <h2>Step-by-Step Process</h2>
+            <div class="steps-container">
+                <div class="step-box">
+                    <h3>1. Signup</h3>
+                    <p>Create an account by entering your name, email, and password.</p>
+                </div>
+                <div class="step-box">
+                    <h3>2. Medical History Form</h3>
+                    <p>Fill out a medical history form for personalized AI health recommendations.</p>
+                </div>
+                <div class="step-box">
+                    <h3>3. Homepage Access</h3>
+                    <p>After submission, access AI-driven features like symptom checking and chatbot assistance.</p>
+                </div>
+                <div class="step-box">
+                    <h3>4. AI Chatbot & Symptom Checker</h3>
+                    <p>Interact with our AI to get health guidance and analyze symptoms instantly.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-explained">
+            <h2>What is AI?</h2>
+            <p>Artificial Intelligence (AI) allows machines to learn, analyze data, and perform tasks requiring human intelligence. It is used in healthcare to improve diagnostics, personalize treatments, and provide automated medical assistance.</p>
+        </section>
+
+        <section id="ai-healthcare">
+            <h2>AI in Healthcare</h2>
+            <p>AI is revolutionizing healthcare by offering predictive analysis, early disease detection, and automated patient assistance. Our AI chatbot provides accurate health information, symptom analysis, and emergency guidance in real-time.</p>
+        </section>
+
+        <section id="about-chatbot">
+            <h2>About Our AI Healthcare Chatbot</h2>
+            <p>Our chatbot assists users with health-related questions, recommends solutions, and guides them toward proper medical care.</p>
+            <h3>Features:</h3>
+            <ul>
+                <li>Instant AI Chatbot Assistance</li>
+                <li>Accurate Symptom Checker</li>
+                <li>Emergency Contact Support</li>
+                <li>Secure Medical History Storage</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 AI Healthcare Chatbot. All rights reserved.</p>
+    </div>
+
+    <!-- JavaScript for Smooth Section Reveal -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const sections = document.querySelectorAll("section");
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>

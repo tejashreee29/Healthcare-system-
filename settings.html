@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Healthcare Chatbot</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Arial', sans-serif;
+      }
+
+      html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          background-color: #ffffff;
+      }
+
+      .main-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          min-height: 100vh; /* Fixed the cut-off issue */
+          background: linear-gradient(to right, #e0f7fa, #b2ebf2);
+          color: #333;
+          padding: 20px;
+          overflow-y: auto; /* Allow scrolling if needed */
+      }
+
+      .content {
+          width: 100%;
+          max-width: 600px;
+          padding: 40px;
+          background: rgba(255, 255, 255, 0.9);
+          border-radius: 12px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          backdrop-filter: blur(10px);
+          text-align: left;
+      }
+
+      h1 {
+          font-size: 36px;
+          margin-bottom: 10px;
+          color: #00796b;
+          text-align: center;
+      }
+
+      .settings-section h2 {
+          font-size: 24px;
+          color: #004d40;
+          margin-top: 20px;
+      }
+
+      .form-group {
+          margin-bottom: 15px;
+      }
+
+      .form-group label {
+          font-weight: bold;
+          color: #004d40;
+      }
+
+      .form-group input, .form-group select {
+          width: 100%;
+          max-width: 400px;
+          padding: 10px;
+          font-size: 16px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          box-sizing: border-box;
+      }
+
+      .btn-primary {
+          background-color: #00796b;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          font-size: 16px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+      }
+
+      .btn-primary:hover {
+          background-color: #005a4f;
+      }
+
+      .hamburger-menu {
+          position: fixed;
+          top: 20px;
+          left: 20px;
+          cursor: pointer;
+          font-size: 30px;
+          color: #00796b;
+          z-index: 10;
+      }
+
+      .hamburger-popup {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 280px;
+          background: linear-gradient(to bottom, #e0f7fa, #b2ebf2);
+          color: #333;
+          padding: 40px;
+          box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+          transition: transform 0.3s ease-in-out;
+          transform: translateX(-100%);
+          overflow-y: auto;
+          backdrop-filter: blur(10px);
+      }
+
+      .hamburger-popup.active {
+          transform: translateX(0);
+          display: block;
+      }
+
+      .hamburger-popup ul {
+          list-style: none;
+          padding: 0;
+          margin-top: 40px;
+          text-align: left;
+      }
+
+      .hamburger-popup ul li {
+          margin: 20px 0;
+          font-size: 20px;
+      }
+
+      .hamburger-popup ul li a {
+          color: #004d40;
+          text-decoration: none;
+          display: block;
+          font-weight: bold;
+      }
+
+      .hamburger-popup ul li a:hover {
+          text-decoration: underline;
+          color: #00796b;
+      }
+
+      .close-menu {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          cursor: pointer;
+          font-size: 30px;
+          color: white;
+      }
+
+  </style>
+</head>
+<body>
+
+  <!-- Hamburger Menu -->
+  <div class="hamburger-menu" onclick="toggleMenu()">&#9776;</div>
+
+  <div class="main-container">
+    <div class="content">
+      <header>
+        <h1>Settings</h1>
+        <p>Manage your preferences and account settings.</p>
+      </header>
+      
+      <!-- Settings Form -->
+      <section class="settings-section">
+        <form action="settings-process.php" method="POST">
+          <!-- Username Update -->
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+          </div>
+
+          <!-- Email Update -->
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <!-- Birth Date -->
+          <div class="form-group">
+            <label for="birth-date">Birth Date:</label>
+            <input type="date" id="birth-date" name="birth-date" required>
+          </div>
+
+          <!-- Phone Number -->
+          <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+          </div>
+
+          <!-- Address -->
+          <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" placeholder="Enter address" required>
+          </div>
+
+          <!-- Password Update -->
+          <div class="form-group">
+            <label for="old-password">Old Password:</label>
+            <input type="password" id="old-password" name="old-password" placeholder="Enter old password" required>
+          </div>
+
+          <div class="form-group">
+            <label for="new-password">New Password:</label>
+            <input type="password" id="new-password" name="new-password" placeholder="Enter new password" required>
+          </div>
+
+          <!-- Manage Preferences -->
+          <div class="form-group">
+            <label for="preferences">Manage Preferences:</label>
+            <select id="preferences" name="preferences">
+              <option value="notifications">Notification Settings</option>
+              <option value="theme">Theme Preferences</option>
+              <option value="privacy">Privacy Settings</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <!-- Hamburger Menu Popup -->
+  <div id="hamburger-popup" class="hamburger-popup">
+    <div class="close-menu" onclick="toggleMenu()">&times;</div>
+    <ul>
+      <li><a href="homepage.html">Homepage</a></li>
+      <li><a href="aichatbot.html">AI Chatbot</a></li>
+      <li><a href="symptoms-checker.html">Symptoms Checker</a></li>
+      <li><a href="medicalhistory.html">Medical History Form</a></li>
+      <li><a href="healthcare-tips.html">Healthcare & Mental Health Tips</a></li>
+      <li><a href="emergency-contacts.html">Emergency Contacts</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+
+  <script>
+    function toggleMenu() {
+        document.getElementById('hamburger-popup').classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>

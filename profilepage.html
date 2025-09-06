@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - Healthcare Chatbot</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Arial', sans-serif;
+      }
+
+      body {
+          background-color: #ffffff;
+      }
+
+      .container {
+          max-width: 800px;
+          margin: 50px auto;
+          padding: 20px;
+          background: rgba(255, 255, 255, 0.9);
+          border-radius: 12px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+          text-align: center;
+          color: #00796b;
+          margin-bottom: 20px;
+      }
+
+      .tabs {
+          display: flex;
+          justify-content: space-around;
+          border-bottom: 2px solid #00796b;
+          cursor: pointer;
+      }
+
+      .tab {
+          padding: 10px;
+          font-weight: bold;
+          color: #004d40;
+      }
+
+      .tab:hover, .tab.active {
+          color: #00796b;
+          border-bottom: 3px solid #00796b;
+      }
+
+      .tab-content {
+          display: none;
+          padding: 20px;
+      }
+
+      .tab-content.active {
+          display: block;
+      }
+
+      label {
+          font-weight: bold;
+          color: #004d40;
+      }
+
+      input, textarea, select, button {
+          width: 100%;
+          margin-top: 5px;
+          margin-bottom: 15px;
+          padding: 10px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+      }
+
+      button {
+          background-color: #00796b;
+          color: white;
+          border: none;
+          cursor: pointer;
+          font-size: 16px;
+      }
+
+      button:hover {
+          background-color: #005a4f;
+      }
+  </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>User Profile</h2>
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('personal-info')">Personal Info</div>
+        <div class="tab" onclick="showTab('medical-history')">Medical History</div>
+    </div>
+
+    <div id="personal-info" class="tab-content active">
+        <h3>Personal Information</h3>
+        <label for="name">Name</label>
+        <input type="text" id="name" disabled>
+        
+        <label for="email">Email</label>
+        <input type="email" id="email" disabled>
+        
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone">
+        
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob">
+        
+        <label for="gender">Gender</label>
+        <select id="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+        
+        <button onclick="updateProfile()">Save Changes</button>
+    </div>
+
+    <div id="medical-history" class="tab-content">
+        <h3>Medical History</h3>
+        <label for="chronic-conditions">Chronic Conditions</label>
+        <textarea id="chronic-conditions" rows="3"></textarea>
+
+        <label for="allergies">Allergies</label>
+        <textarea id="allergies" rows="3"></textarea>
+
+        <label for="medications">Current Medications</label>
+        <textarea id="medications" rows="3"></textarea>
+
+        <button onclick="updateMedicalHistory()">Save Changes</button>
+    </div>
+</div>
+
+<script>
+    function showTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    function updateProfile() {
+        alert('Profile updated successfully!');
+    }
+
+    function updateMedicalHistory() {
+        alert('Medical history updated successfully!');
+    }
+</script>
+
+</body>
+</html>

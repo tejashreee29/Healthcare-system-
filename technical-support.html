@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Support - Healthcare Chatbot</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Arial', sans-serif;
+      }
+
+      html, body {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          background-color: #e0f7fa; /* Solid background color */
+      }
+
+      .main-container {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          padding: 20px;
+          padding-bottom: 150px; /* Pushes footer lower */
+      }
+
+      .content {
+          width: 100%;
+          max-width: 800px;
+          padding: 40px;
+          background: rgba(255, 255, 255, 0.9);
+          border-radius: 12px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          backdrop-filter: blur(10px);
+          text-align: center;
+      }
+
+      h1 {
+          font-size: 36px;
+          color: #00796b;
+      }
+
+      p {
+          font-size: 18px;
+          color: #004d40;
+          margin-bottom: 20px;
+      }
+
+      .btn-primary {
+          background-color: #00796b;
+          color: white;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+
+      .btn-primary:hover {
+          background-color: #005a4f;
+      }
+
+      /* Hamburger Menu */
+      .hamburger-menu {
+          position: fixed;
+          top: 20px;
+          left: 20px;
+          cursor: pointer;
+          font-size: 30px;
+          color: #00796b;
+          z-index: 10;
+      }
+
+      /* Hamburger Menu Popup */
+      .hamburger-popup {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 280px;
+          background-color: #e0f7fa; /* Solid background color */
+          color: #333;
+          padding: 40px;
+          box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+          transition: transform 0.3s ease-in-out;
+          transform: translateX(-100%);
+          overflow-y: auto;
+      }
+
+      .hamburger-popup.active {
+          transform: translateX(0);
+          display: block;
+      }
+
+      .hamburger-popup ul {
+          list-style: none;
+          padding: 0;
+          margin-top: 40px;
+          text-align: left;
+      }
+
+      .hamburger-popup ul li {
+          margin: 20px 0;
+          font-size: 20px;
+      }
+
+      .hamburger-popup ul li a {
+          color: #004d40;
+          text-decoration: none;
+          display: block;
+          font-weight: bold;
+      }
+
+      .hamburger-popup ul li a:hover {
+          text-decoration: underline;
+          color: #00796b;
+      }
+
+      .close-menu {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          cursor: pointer;
+          font-size: 30px;
+          color: white;
+      }
+
+      /* Footer */
+      footer {
+          width: 100%;
+          background-color: #e0f7fa;
+          padding: 30px;
+          text-align: center;
+          font-size: 14px;
+          position: relative;
+          bottom: -80px; /* Moves footer lower */
+          box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .footer-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+      }
+
+      .footer-links {
+          list-style: none;
+          display: flex;
+          gap: 15px;
+          padding: 0;
+      }
+
+      .footer-links li {
+          display: inline;
+      }
+
+      .footer-links li a {
+          text-decoration: none;
+          color: #004d40;
+          font-weight: bold;
+      }
+
+      .footer-links li a:hover {
+          text-decoration: underline;
+          color: #00796b;
+      }
+
+  </style>
+</head>
+<body>
+
+  <!-- Hamburger Menu -->
+  <div class="hamburger-menu" onclick="toggleMenu()">☰</div>
+
+  <!-- Hamburger Menu Popup -->
+  <div id="hamburger-popup" class="hamburger-popup">
+    <div class="close-menu" onclick="toggleMenu()">&times;</div>
+    <ul>
+      <li><a href="index.html">Homepage</a></li>
+      <li><a href="aichatbot.html">AI Chatbot</a></li>
+      <li><a href="symptoms-checker.html">Symptoms Checker</a></li>
+      <li><a href="medicalhistory.html">Medical History Form</a></li>
+      <li><a href="healthcare-tips.html">Healthcare & Mental Health Tips</a></li>
+      <li><a href="emergency-contacts.html">Emergency Contacts</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+
+  <div class="main-container">
+    <!-- Main Content -->
+    <div class="content">
+      <header>
+        <h1>Technical Support</h1>
+        <p>If you're facing any issues or need technical assistance, please fill out the form below.</p>
+      </header>
+
+      <!-- Support Form Section -->
+      <section class="support-form">
+        <h2>Submit a Technical Issue</h2>
+        <form action="#" method="POST">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="issue-description">Issue Description</label>
+            <textarea id="issue-description" name="issue-description" rows="6" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="priority">Priority Level</label>
+            <select id="priority" name="priority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn-primary">Submit Issue</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer>
+    <div class="footer-container">
+      <ul class="footer-links">
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="terms-conditions.html">Terms and Conditions</a></li>
+        <li><a href="contact-us.html">Contact Us</a></li>
+        <li><a href="help-support.html">Help & Support</a></li>
+      </ul>
+      <p class="disclaimer">Disclaimer: The Healthcare Chatbot provides helpful and informative suggestions for your health. However, it is not intended to replace professional medical advice. Always consult with your healthcare provider for any specific medical concerns.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+        document.getElementById('hamburger-popup').classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>

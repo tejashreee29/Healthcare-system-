@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare AI Chatbot</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f5f7fa 100%);
+            color: #1a365d;
+            text-align: center;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: linear-gradient(to right, #2b6cb0, #4299e1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        .navbar a:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 40px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+        .card {
+            background: white;
+            width: 280px;
+            margin: 15px;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border-color: #4299e1;
+        }
+        .card img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #e2e8f0;
+        }
+        .card h3 {
+            color: #2b6cb0;
+            margin: 10px 0;
+            font-size: 1.3rem;
+        }
+        .card p {
+            color: #4a5568;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        h1 {
+            color: #2b6cb0;
+            margin-top: 40px;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        p {
+            color: #4a5568;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo"> AI Heathcare </div>
+        <div>
+            <a href="settings.html">profile</a>
+            <a href="emergency-contacts.html">Emergency Contact</a>
+            <a href="contact-us.html">Contact Us</a>
+        </div>
+    </div>
+    <h1>Welcome, User!</h1>
+    <p>Empowering Healthcare with AI-Powered Solutions.</p>
+    <div class="container">
+        <div class="card">
+            <img src="images/aichatbot1.jpg" alt="AI Chatbot">
+            <h3>AI Chatbot</h3>
+            <p>Get real-time health assistance with AI.</p>
+        </div>
+        <div class="card">
+            <img src="images/symptom-checker1.jpg" alt="Symptom Checker">
+            <h3>Symptom Checker</h3>
+            <p>Enter symptoms and get AI-based medical guidance.</p>
+        </div>
+        <div class="card">
+            <img src="images/medical-history1.jpg" alt="Medical History">
+            <h3>Medical History</h3>
+            <p>View and update your medical records securely.</p>
+        </div>
+        <div class="card">
+            <img src="images/healthcaretips.jpg" alt="Healthcare Tips">
+            <h3>Healthcare Tips</h3>
+            <p>Learn essential health tips for daily care.</p>
+        </div>
+    </div>
+</body>
+</html>
