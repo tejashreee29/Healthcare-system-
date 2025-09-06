@@ -2,7 +2,7 @@
 
 A web-based Healthcare Chatbot application that helps users manage their health efficiently. Users can securely log in, fill medical forms, view medical history, and access a smart chatbot, symptom checker, and personalized healthcare tips.
 
-a> Features
+## Features
 
 - User Authentication: Secure login and registration system.
 - Medical Form Submission: Add and update personal medical information.
@@ -13,14 +13,14 @@ a> Features
   - Healthcare Tips: Personalized recommendations.
 - Responsive Design: Works on desktop and mobile devices.
 
-b> Technologies Used
+## Technologies Used
 
 - Frontend: HTML, CSS, JavaScript (or React/Vue)
 - Backend: Node.js / Django / Flask
 - Database: MySQL / MongoDB / PostgreSQL/ SQLlite
 - AI/ML: Optional models for chatbot and symptom analysis
 
-c> Installation
+## Installation
 
 1. Clone the repository:
    ```bash
