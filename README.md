@@ -1,192 +1,86 @@
-# Healthcare Chatbot Web Application
+# 🏥 AI Healthcare System 2.0
 
-A comprehensive web-based Healthcare AI application that helps users manage their health efficiently with cutting-edge features including AI chatbot, health tracking, appointment booking, medication reminders, and more.
+![Aesthetics](https://img.shields.io/badge/Aesthetics-Premium-blueviolet)
+![Tech](https://img.shields.io/badge/Tech-Node.js%20%7C%20SQLite%20%7C%20Gemini%20AI-blue)
+![Status](https://img.shields.io/badge/Status-Production%20Ready-success)
 
-## 🌟 Features
-
-### Core Features
-- **User Authentication**: Secure login and registration system with encrypted passwords
-- **Medical Form Submission**: Add and update personal medical information
-- **AI-Powered Chatbot**: Get instant health advice using Google Gemini AI
-- **Symptom Checker**: Preliminary analysis based on input symptoms
-
-### 🆕 New Premium Features
-
-#### 📊 Health Dashboard
-- Real-time health metrics visualization
-- Interactive charts showing weekly health trends
-- Activity breakdown with doughnut charts
-- Quick stats for temperature, blood pressure, heart rate, and steps
-- Dark mode toggle for comfortable viewing
-- Responsive design for all devices
-
-#### 📅 Appointment Booking System
-- Book appointments with multiple specialist doctors
-- Interactive doctor selection with specialties
-- Time slot selection with availability tracking
-- Appointment type categorization (consultation, follow-up, emergency, checkup)
-- View and manage all your appointments
-- Reschedule and cancel functionality
-- Appointment status tracking (confirmed/pending)
-
-#### 💊 Medication Tracker & Reminder
-- Add medications with custom dosages
-- Set multiple daily reminders (1-4 times per day)
-- Track medication adherence rate
-- View active medications and remaining days
-- Special instructions for each medication
-- Mark doses as taken or skipped
-- Visual reminder time badges
-- Medication statistics dashboard
-
-#### 📈 Health Tracker
-- **BMI Calculator**: Calculate and categorize your BMI
-- **Multi-metric Tracking**:
-  - Blood Pressure monitoring
-  - Blood Sugar levels
-  - Weight tracking
-  - Body Temperature
-- Interactive charts showing health trends
-- Historical data with timestamps
-- Quick stats overview
-- Export and delete measurements
-
-#### 🏥 Find Nearby Hospitals
-- Interactive map with real hospital locations
-- Filter by type: Hospitals, Clinics, Emergency Centers, Pharmacies
-- Distance calculation from your location
-- Get directions to facilities
-- Call hospitals directly from the app
-- Emergency 911 quick dial
-- Geolocation support
-- Hospital ratings and reviews
-- Operating hours display
-
-### Additional Features
-- **Healthcare Tips**: Personalized health recommendations
-- **Medical History**: Track past records and surgeries
-- **Emergency Contacts**: Quick access to emergency services
-- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
-- **Dark Mode**: Eye-friendly dark theme option
-- **Real-time Notifications**: Get alerts for appointments and medications
-
-## 🛠 Technologies Used
-
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **Charts**: Chart.js for data visualization
-- **Maps**: Leaflet.js for interactive maps
-- **Backend**: Node.js with Express
-- **Database**: SQLite for data persistence
-- **AI/ML**: Google Gemini AI (gemini-1.5-flash)
-- **Authentication**: bcrypt for password hashing
-- **APIs**: 
-  - Google Generative AI
-  - Geolocation API
-  - Notifications API
-
-## 📦 Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/healthcare-chatbot.git
-   ```
-
-2. Navigate to the project directory:
-   ```bash
-   cd healthcare-chatbot
-   ```
-
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-4. Create a `.env` file in the root directory and add your API keys:
-   ```env
-   GEMINI_API_KEY=your_google_gemini_api_key_here
-   ```
-
-5. Start the application:
-   ```bash
-   npm start
-   ```
-
-6. Open your browser and navigate to:
-   ```
-   http://localhost:3000
-   ```
-
-## 🚀 Usage
-
-1. **Sign Up**: Create a new account with your details
-2. **Login**: Access your personalized dashboard
-3. **Explore Dashboard**: View your health metrics and quick actions
-4. **Book Appointments**: Schedule consultations with doctors
-5. **Track Medications**: Add your medications and set reminders
-6. **Monitor Health**: Log vital signs and track trends
-7. **Find Hospitals**: Locate nearby healthcare facilities
-8. **Chat with AI**: Get instant health advice 24/7
-
-## 📱 Pages Overview
-
-- `index.html` - Landing page with feature overview
-- `dashboard.html` - Main health dashboard with stats and charts
-- `appointments.html` - Book and manage appointments
-- `medications.html` - Medication tracker with reminders
-- `health-tracker.html` - Track vital signs and BMI
-- `nearby-hospitals.html` - Find healthcare facilities with map
-- `aichatbot.html` - AI-powered health chatbot
-- `symptoms-checker.html` - Symptom analysis tool
-- `medicalhistory.html` - Medical records management
-- `healthcare-tips.html` - Health tips and advice
-- `signup.html` / `login.html` - User authentication
-
-## 🔐 Security Features
-
-- Password encryption using bcrypt
-- Secure session management
-- SQL injection prevention
-- Input validation and sanitization
-- HTTPS ready
-
-## 🎨 Design Features
-
-- Modern gradient backgrounds
-- Smooth animations and transitions
-- Glassmorphism effects
-- Interactive hover states
-- Responsive grid layouts
-- Custom icons and emojis
-- Premium color schemes
-- Dark mode support
-
-## 📊 Database Schema
-
-### Users Table
-- id, name, email, password, gender, mobile, age
-
-### Medical History Table
-- id, userId, chronic_conditions, allergies, medications, past_surgeries, height, weight, blood_group, lifestyle, additional_info
-
-### Chat History Table
-- id, userId, message, response, timestamp
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 👨‍💻 Developer
-
-Created with ❤️ for better healthcare accessibility
-
-## 🆘 Support
-
-For support, email support@aihealthcare.com or create an issue in the repository.
+A next-generation, intelligent healthcare management platform designed to provide patients with premium AI-powered tools for symptom checking, health tracking, and professional clinical management.
 
 ---
 
-**Note**: This is a demo application. Always consult with real healthcare professionals for medical advice.
+## 🌟 Key Features
+
+### 📊 Intelligent Health Dashboard
+*   **Real-time Vitals**: Monitor Temperature, Blood Pressure, Heart Rate, and Steps.
+*   **Data Visualization**: Interactive weekly trends and activity charts powered by Chart.js.
+*   **Quick Actions**: One-click access to book appointments, add medications, or consult the AI.
+
+### 🤖 AI Health Consult
+*   **Gemini-Powered Chat**: Describe symptoms or ask health questions for immediate, intelligent medical context.
+*   **Symptom Checker**: Specialized tool for evaluating potential conditions and receiving guided next steps.
+*   **AI Report Analysis**: Upload medical documents (PDF/Images) and get summarized AI insights instantly.
+
+### 📅 Smart Clinical Tools
+*   **Appointment Booking**: Schedule visits with specialist doctors (Cardiologists, Physicians, etc.) with real-time slot selection.
+*   **Medication Tracker**: Manage daily doses with frequency settings and adherence tracking.
+*   **Medical Vault**: Securely store and manage your clinical history and uploaded records.
+
+### 🏥 Facility Finder
+*   **Interactive Maps**: Locate nearby hospitals, clinics, and pharmacies using Leaflet.js.
+*   **Direct Actions**: Get directions via Google Maps or call facilities directly from the interface.
+
+---
+
+## 🎨 Design Philosophy
+*   **Premium UI**: A sleek, modern interface using glassmorphism, vibrant gradients, and smooth micro-animations.
+*   **Dark Mode**: Native support for an eye-friendly dark theme.
+*   **Fully Responsive**: Seamless experience across mobile, tablet, and desktop devices.
+
+---
+
+## 🛠️ Tech Stack
+*   **Frontend**: HTML5, Vanilla CSS3 (Custom Design System), JavaScript (ES6+), Chart.js, Leaflet.js.
+*   **Backend**: Node.js, Express.js.
+*   **AI Engine**: Google Gemini Pro (Generative AI).
+*   **Database**: SQLite (Secure local storage).
+*   **Security**: Bcrypt password hashing, Environment-based configuration.
+
+---
+
+## 🚀 Quick Start
+
+### 1. Prerequisites
+*   Node.js installed.
+*   A **Google Gemini API Key** (Get it from [Google AI Studio](https://aistudio.google.com/)).
+
+### 2. Installation
+```bash
+# Clone the repository
+git clone https://github.com/tejashreee29/Healthcare-system-.git
+cd Healthcare-system-
+
+# Install dependencies
+npm install
+```
+
+### 3. Configuration
+Create a `.env` file in the root directory:
+```env
+PORT=3000
+GEMINI_API_KEY=your_actual_api_key_here
+```
+
+### 4. Run the App
+```bash
+npm start
+```
+Visit `http://localhost:3000` to experience the platform.
+
+---
+
+## 🔐 Security Disclaimer
+This project is an engineering research tool. While it uses enterprise-grade encryption patterns and AI context, it is **not a replacement for professional medical diagnosis**. Always consult a certified healthcare professional for medical emergencies.
+
+---
+
+*Developed by [Tejashree Suvarna](https://github.com/tejashreee29) - 2026 Student Engineering Portfolio*
