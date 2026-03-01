@@ -1,161 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Healthcare & Wellness Tips</title>
+    <title>Wellness Guide - AI Healthcare</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #0f2e4d;
+        .tips-hero {
+            padding: 80px 0;
+            text-align: center;
+            background: var(--bg-gradient);
             color: white;
+            border-radius: 0 0 50px 50px;
+            margin-bottom: 60px;
+            box-shadow: var(--shadow-premium);
         }
 
-        .navbar {
-            background-color: #1a3d5d;
-            padding: 15px 30px;
-            text-align: center;
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-        }
-
-        .navbar a:hover {
-            color: #4cb5f5;
-        }
-
-        .header {
-            text-align: center;
-            padding: 50px 20px;
-        }
-
-        .header h1 {
-            font-size: 40px;
-        }
-
-        .tips-container {
-            padding: 40px 20px;
-        }
-
-        .tip {
-            background-color: #1a3d5d;
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
             padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
         }
 
-        .tip h2 {
-            color: #4cb5f5;
+        .tip-card {
+            background: white;
+            padding: 35px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-premium);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .tip p {
-            font-size: 18px;
+        .tip-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
         }
 
-        .resources-section {
-            padding: 40px 20px;
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--bg-gradient);
+            opacity: 0;
+            transition: var(--transition);
         }
 
-        .resources-section h2 {
-            color: #4cb5f5;
+        .tip-card:hover::before {
+            opacity: 1;
         }
 
-        .resources-section a {
-            color: #4cb5f5;
-            text-decoration: none;
+        .tip-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 1.5px;
         }
 
-        .resources-section a:hover {
-            text-decoration: underline;
+        .tip-icon {
+            font-size: 2.5rem;
+            margin: 10px 0;
         }
 
-        .footer {
-            background-color: #0f2e4d;
-            padding: 20px;
-            text-align: center;
+        .tip-time {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .icon {
-            font-size: 25px;
-            margin-right: 10px;
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: 2px solid #f1f5f9;
+            background: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--bg-dark);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(45, 206, 177, 0.05);
         }
     </style>
 </head>
-<body>
 
-<div class="navbar">
-    <a href="index.html">🏠 Home</a>
-    <a href="aichatbot.html">💬 AI Chatbot</a>
-    <a href="symptoms-checker.html">🤒 Symptom Checker</a>
-    <a href="medicalhistory.html">📜 Medical History</a>
-    <a href="emergency-contacts.html">🚨 Emergency Contact</a>
-</div>
+<body class="animate-fade">
 
-<div class="header">
-    <h1>💊 Healthcare & Mental Health Tips</h1>
-    <p>Your ultimate guide to a healthy lifestyle</p>
-</div>
+    <aside class="sidebar">
+        <div class="logo-container">
+            <div class="logo-icon">🏥</div>
+            <h2>AI Health</h2>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="dashboard.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="aichatbot.html"><span>🤖</span> AI Chatbot</a></li>
+            <li><a href="symptoms-checker.html"><span>🤒</span> AI Diagnostic</a></li>
+            <li><a href="healthcare-tips.html" class="active"><span>💡</span> Wellness Tips</a></li>
+            <li><a href="medicalhistory.html"><span>📋</span> History</a></li>
+            <li><a href="nearby-hospitals.html"><span>🏥</span> Hospitals</a></li>
+            <li><a href="settings.html"><span>⚙️</span> Settings</a></li>
+        </ul>
+        <div class="logout">
+            <a href="#" onclick="logout()"><span>🚪</span> Logout</a>
+        </div>
+    </aside>
 
-<div class="tips-container">
-    <div class="tip">
-        <h2><span class="icon">💧</span> Stay Hydrated</h2>
-        <p>Drink at least 8-10 glasses of water daily. Proper hydration boosts digestion, skin glow, and overall health.</p>
-    </div>
+    <main class="main-content">
+        <div class="tips-hero">
+            <span class="section-tag"
+                style="background: rgba(255,255,255,0.2); border-color: transparent; color: white;">Knowledge
+                Base</span>
+            <h1 style="font-size: 3.5rem; letter-spacing: -2px;">Master Your Well-being</h1>
+            <p style="font-size: 1.2rem; opacity: 0.9;">Curated health wisdom powered by AI insights.</p>
+        </div>
 
-    <div class="tip">
-        <h2><span class="icon">🥗</span> Balanced Diet</h2>
-        <p>Include fresh vegetables, fruits, lean proteins, and whole grains in your daily diet. Avoid excess sugar and processed foods.</p>
-    </div>
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterTips('all')">All Tips</button>
+            <button class="filter-btn" onclick="filterTips('physical')">Physical Health</button>
+            <button class="filter-btn" onclick="filterTips('mental')">Mental Wellness</button>
+            <button class="filter-btn" onclick="filterTips('nutrition')">Nutrition</button>
+            <button class="filter-btn" onclick="filterTips('lifestyle')">Lifestyle</button>
+        </div>
 
-    <div class="tip">
-        <h2><span class="icon">🏋️‍♀️</span> Regular Exercise</h2>
-        <p>Exercise for 30 minutes daily—walking, running, yoga, or cardio to keep your body fit.</p>
-    </div>
+        <div class="tips-grid" id="tips-grid">
+            <!-- Tip 1 -->
+            <div class="tip-card" data-category="lifestyle">
+                <span class="tip-category">Lifestyle</span>
+                <div class="tip-icon">💧</div>
+                <h3>The 8x8 Hydration Rule</h3>
+                <p>Drinking at least 8 ounces of water 8 times a day maintains cell function and energy levels.</p>
+                <div class="tip-time">⏱️ 2 min read</div>
+            </div>
 
-    <div class="tip">
-        <h2><span class="icon">😴</span> Proper Sleep</h2>
-        <p>Ensure you get 7-9 hours of quality sleep to boost mental and physical health.</p>
-    </div>
+            <!-- Tip 2 -->
+            <div class="tip-card" data-category="mental">
+                <span class="tip-category">Mental Wellness</span>
+                <div class="tip-icon">🧘</div>
+                <h3>Mindful Micro-Breaks</h3>
+                <p>Staring at a screen? Use the 20-20-20 rule to reduce eye strain and mental fatigue instantly.</p>
+                <div class="tip-time">⏱️ 3 min read</div>
+            </div>
 
-    <div class="tip">
-        <h2><span class="icon">🧠</span> Mental Health Care</h2>
-        <p>Practice mindfulness, reduce screen time, talk to loved ones, and engage in positive activities for mental peace.</p>
-    </div>
+            <!-- Tip 3 -->
+            <div class="tip-card" data-category="nutrition">
+                <span class="tip-category">Nutrition</span>
+                <div class="tip-icon">🫐</div>
+                <h3>Superfood Synergy</h3>
+                <p>Combine blueberries with walnuts to boost brain antioxidants through nutrient synergy.</p>
+                <div class="tip-time">⏱️ 5 min read</div>
+            </div>
 
-    <div class="tip">
-        <h2><span class="icon">🚑</span> Emergency First Aid</h2>
-        <p>Keep a first-aid kit at home. Learn CPR techniques for emergencies. Always have emergency contact numbers saved.</p>
-    </div>
+            <!-- Tip 4 -->
+            <div class="tip-card" data-category="physical">
+                <span class="tip-category">Physical Health</span>
+                <div class="tip-icon">🏃</div>
+                <h3>Zone 2 Cardio Secret</h3>
+                <p>Training at 60-70% of max heart rate builds mitochondrial density and metabolic health.</p>
+                <div class="tip-time">⏱️ 4 min read</div>
+            </div>
 
-    <div class="tip">
-        <h2><span class="icon">🩸</span> Blood Pressure Control</h2>
-        <p>Check your blood pressure regularly and avoid excessive salt intake. Exercise and proper diet are key.</p>
-    </div>
+            <!-- Tip 5 -->
+            <div class="tip-card" data-category="mental">
+                <span class="tip-category">Mental Wellness</span>
+                <div class="tip-icon">🌙</div>
+                <h3>Digital Sunset</h3>
+                <p>Turn off blue-emitting screens 60 minutes before bed to allow natural melatonin production.</p>
+                <div class="tip-time">⏱️ 3 min read</div>
+            </div>
 
-    <div class="tip">
-        <h2><span class="icon">🦷</span> Dental Health</h2>
-        <p>Brush twice daily, floss regularly, and visit the dentist every 6 months for oral hygiene.</p>
-    </div>
-</div>
+            <!-- Tip 6 -->
+            <div class="tip-card" data-category="lifestyle">
+                <span class="tip-category">Lifestyle</span>
+                <div class="tip-icon">🪑</div>
+                <h3>The Sitting Disease</h3>
+                <p>Active standing for just 5 minutes every hour can reduce sedentary health risks by 40%.</p>
+                <div class="tip-time">⏱️ 2 min read</div>
+            </div>
+        </div>
+    </main>
 
-<div class="resources-section">
-    <h2>🌐 Useful Health Resources</h2>
-    <ul>
-        <li><a href="https://www.who.int" target="_blank">🌍 World Health Organization (WHO)</a></li>
-        <li><a href="https://www.healthline.com" target="_blank">📖 Healthline - Health Tips</a></li>
-        <li><a href="https://www.webmd.com" target="_blank">💊 WebMD - Medical Information</a></li>
-        <li><a href="https://www.mayoclinic.org" target="_blank">🩻 Mayo Clinic - Disease Treatment</a></li>
-        <li><a href="https://www.findahelpline.com" target="_blank">🧠 Find a Helpline - Mental Health Support</a></li>
-    </ul>
-</div>
+    <script>
+        function filterTips(category) {
+            // Update active button
+            const btns = document.querySelectorAll('.filter-btn');
+            btns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.innerText.toLowerCase().includes(category)) btn.classList.add('active');
+            });
+            if (category === 'all') btns[0].classList.add('active');
 
-<div class="footer">
-    &copy; 2025 AI Healthcare Chatbot. All rights reserved.
-</div>
+            // Filter cards
+            const cards = document.querySelectorAll('.tip-card');
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                if (category === 'all' || cardCat === category) {
+                    card.style.display = 'flex';
+                    card.style.animation = 'fadeIn 0.5s ease-out forwards';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
 
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
+
 </html>

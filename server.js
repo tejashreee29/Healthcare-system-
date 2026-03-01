@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const axios = require('axios');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const Groq = require("groq-sdk");
 
@@ -391,6 +392,27 @@ app.post('/analyze-record', async (req, res) => {
       res.status(500).json({ message: "AI Analysis failed", debug: error.message });
     }
   });
+});
+
+// ✅ AI/ML SYMPTOM CHECKER Route (Python Microservice Integration)
+app.post('/predict-symptoms', async (req, res) => {
+  const { symptoms } = req.body;
+  if (!symptoms || !Array.isArray(symptoms)) {
+    return res.status(400).json({ message: "Symptoms list is required" });
+  }
+
+  console.log(`🧠 Calling Python ML Service for symptoms: ${symptoms.join(', ')}`);
+
+  try {
+    const response = await axios.post('http://localhost:8000/predict', { symptoms });
+    res.json(response.data);
+  } catch (error) {
+    console.error("❌ Python ML Service Error:", error.message);
+    res.status(500).json({
+      message: "ML Service unavailable",
+      fallback: "Try our Gemini-powered AI Chatbot for symptom evaluation."
+    });
+  }
 });
 
 // ✅ Start Server

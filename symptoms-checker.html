@@ -1,234 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Symptom Checker</title>
+    <title>AI Diagnostic - Healthcare System</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Global Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+        .diagnostic-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-premium);
         }
 
-        /* Updated Background to Match Navbar */
-        body {
-            background-color: #1a3d5d;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Navbar */
-        nav {
-            background-color: #1a3d5d;
-            color: white;
-            padding: 15px 0;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 20px;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #ff5733;
-        }
-
-        /* Main Content Container */
-        .container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        /* Glassmorphism Effect Card */
-        .symptom-box {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 30px;
-            width: 500px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 1s;
-        }
-
-        .symptom-box h1 {
-            font-size: 26px;
-            margin-bottom: 10px;
-            color: white;
-        }
-
-        .symptom-box p {
-            font-size: 14px;
-            color: #ddd;
-            margin-bottom: 20px;
-        }
-
-        /* Textarea Input */
-        textarea {
-            width: 100%;
-            height: 120px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            resize: none;
-            outline: none;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        textarea:focus {
-            border: 1px solid #4cb5f5;
-            box-shadow: 0 0 15px rgba(76, 181, 245, 0.5);
-        }
-
-        /* Submit Button */
-        button {
-            background-color: #ff5733;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 5px;
-            font-size: 16px;
+        .symptom-tag {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #f1f5f9;
+            border-radius: 50px;
+            margin: 5px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
+            font-weight: 600;
+            border: 2px solid transparent;
         }
 
-        button:hover {
-            background-color: #ff3d00;
-            transform: scale(1.05);
-        }
-
-        /* Results Container */
-        #results {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        .symptom-tag.active {
+            background: var(--bg-gradient);
             color: white;
+            border-color: transparent;
+            box-shadow: 0 5px 15px rgba(45, 206, 177, 0.3);
         }
 
-        /* Footer */
-        footer {
-            background-color: #0f2e4d;
-            color: white;
-            padding: 15px;
+        .symptom-tag:hover:not(.active) {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .result-panel {
+            margin-top: 40px;
+            padding: 30px;
+            border-radius: 20px;
+            background: #f8fafc;
+            display: none;
+            border-left: 5px solid var(--primary);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .loading-spinner {
+            display: none;
             text-align: center;
-            font-size: 14px;
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
         }
 
-        footer a {
-            color: #4cb5f5;
-            text-decoration: none;
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
         }
 
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Fade In Animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+
+            100% {
+                transform: rotate(360deg);
             }
         }
     </style>
 </head>
 
-<body>
+<body class="animate-fade">
 
-<!-- Navbar -->
-<nav>
-    <a href="homepage.html">Home</a>
-    <a href="aichatbot.html">AI Chatbot</a>
-    <a href="symptoms-checker.html">Symptom Checker</a>
-    <a href="medicalhistory.html">Medical History</a>
-    <a href="healthcare-tips.html">Healthcare Tips</a>
-    <a href="emergency-contacts.html">Emergency Contacts</a>
-</nav>
+    <aside class="sidebar">
+        <div class="logo-container">
+            <div class="logo-icon">🏥</div>
+            <h2>AI Health</h2>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="dashboard.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="aichatbot.html"><span>🤖</span> AI Chatbot</a></li>
+            <li><a href="symptoms-checker.html" class="active"><span>🤒</span> AI Diagnostic</a></li>
+            <li><a href="healthcare-tips.html"><span>💡</span> Wellness Tips</a></li>
+            <li><a href="medicalhistory.html"><span>📋</span> History</a></li>
+            <li><a href="nearby-hospitals.html"><span>🏥</span> Hospitals</a></li>
+            <li><a href="settings.html"><span>⚙️</span> Settings</a></li>
+        </ul>
+        <div class="logout">
+            <a href="#" onclick="logout()"><span>🚪</span> Logout</a>
+        </div>
+    </aside>
 
-<!-- Main Section -->
-<div class="container">
-    <div class="symptom-box">
-        <h1>AI Symptom Checker</h1>
-        <p>Input your symptoms below, and our AI will predict potential conditions.</p>
+    <main class="main-content">
+        <header style="margin-bottom: 50px;">
+            <p
+                style="text-transform: uppercase; font-weight: 800; font-size: 0.8rem; color: var(--primary); letter-spacing: 2px; margin-bottom: 10px;">
+                Python Machine Learning</p>
+            <h1 style="font-size: 2.8rem; letter-spacing: -1.5px;">AI Symptom Analysis</h1>
+        </header>
 
-        <textarea id="symptoms" placeholder="E.g., fever, headache, sore throat..."></textarea>
-        <br><br>
-        <button onclick="checkSymptoms()">Check Symptoms</button>
+        <div class="diagnostic-card">
+            <h2 style="margin-bottom: 20px;">What are you feeling today?</h2>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Select all symptoms that apply to you. Our
+                Python-based Decision Tree model will analyze these patterns.</p>
 
-        <div id="results"></div>
-    </div>
-</div>
+            <div id="symptoms-list" style="margin-bottom: 40px;">
+                <!-- Symptoms will be generated -->
+            </div>
 
-<!-- Footer -->
-<footer>
-    &copy; 2025 AI Healthcare Chatbot. All rights reserved. | <a href="#">Privacy Policy</a>
-</footer>
+            <button onclick="analyzeSymptoms()" class="btn btn-primary"
+                style="width: 100%; padding: 20px; font-size: 1.1rem; font-weight: 700;">
+                Run AI Analysis 🔬
+            </button>
 
-<script>
-    function checkSymptoms() {
-        const symptoms = document.getElementById("symptoms").value.toLowerCase();
-        const results = document.getElementById("results");
+            <div class="loading-spinner" id="loader">
+                <div class="spinner"></div>
+                <p>Consulting ML Model...</p>
+            </div>
 
-        if (!symptoms) {
-            results.innerHTML = "<p style='color: red;'>Please enter some symptoms.</p>";
-            return;
-        }
+            <div class="result-panel" id="result-panel">
+                <h3 id="result-condition" style="color: var(--bg-dark); margin-bottom: 15px; font-size: 1.5rem;"></h3>
+                <p id="result-confidence" style="font-weight: 700; color: var(--primary); margin-bottom: 10px;"></p>
+                <p id="result-recommendation" style="line-height: 1.6; color: var(--text-muted);"></p>
 
-        const conditions = {
-            "fever, headache": {
-                condition: "Common Flu",
-                prescription: "Paracetamol, Rest, Hydration",
-                recommendations: "Stay hydrated, avoid cold air, rest well."
-            },
-            "cough, fever": {
-                condition: "Respiratory Infection",
-                prescription: "Antibiotics, Rest, Warm fluids",
-                recommendations: "Avoid cold drinks, keep warm, use steam inhalation."
-            },
-            "vomiting, diarrhea": {
-                condition: "Food Poisoning",
-                prescription: "ORS, Hydration, Rest",
-                recommendations: "Avoid spicy foods, stay hydrated, visit doctor if severe."
+                <div
+                    style="margin-top: 20px; padding: 15px; background: rgba(245, 158, 11, 0.1); border-radius: 10px; border: 1px solid rgba(245, 158, 11, 0.2); display: flex; gap: 10px; align-items: center;">
+                    <span>⚠️</span>
+                    <p style="font-size: 0.85rem; color: #92400e;">This is an AI prediction. Not a professional
+                        diagnosis.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const symptomsArr = [
+            "itching", "skin_rash", "continuous_sneezing", "shivering",
+            "stomach_pain", "acidity", "vomiting", "fatigue",
+            "weight_loss", "cough", "high_fever", "headache", "chest_pain"
+        ];
+
+        const symptomsList = document.getElementById('symptoms-list');
+        const selectedSymptoms = new Set();
+
+        // Generate Tags
+        symptomsArr.forEach(s => {
+            const span = document.createElement('span');
+            span.className = 'symptom-tag';
+            span.innerText = s.replace(/_/g, ' ');
+            span.onclick = () => {
+                span.classList.toggle('active');
+                if (selectedSymptoms.has(s)) selectedSymptoms.delete(s);
+                else selectedSymptoms.add(s);
+            };
+            symptomsList.appendChild(span);
+        });
+
+        async function analyzeSymptoms() {
+            if (selectedSymptoms.size === 0) {
+                alert("Please select at least one symptom.");
+                return;
             }
-        };
 
-        if (conditions[symptoms]) {
-            const { condition, prescription, recommendations } = conditions[symptoms];
-            results.innerHTML = `
-                <p><strong>Possible Condition:</strong> ${condition}</p>
-                <p><strong>Prescription:</strong> ${prescription}</p>
-                <p><strong>Recommendations:</strong> ${recommendations}</p>
-            `;
-        } else {
-            results.innerHTML = `
-                <p><strong>Possible Condition:</strong> Unknown</p>
-                <p>Please consult a doctor for an accurate diagnosis.</p>
-            `;
+            const loader = document.getElementById('loader');
+            const panel = document.getElementById('result-panel');
+
+            loader.style.display = 'block';
+            panel.style.display = 'none';
+
+            try {
+                const response = await fetch('/predict-symptoms', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ symptoms: Array.from(selectedSymptoms) })
+                });
+
+                const data = await response.json();
+
+                document.getElementById('result-condition').innerText = `Potential Condition: ${data.condition}`;
+                document.getElementById('result-confidence').innerText = `AI Confidence: ${data.confidence}`;
+                document.getElementById('result-recommendation').innerText = data.recommendation;
+
+                panel.style.display = 'block';
+            } catch (error) {
+                alert("ML Service is offline. Please ensure the Python backend is running.");
+            } finally {
+                loader.style.display = 'none';
+            }
         }
-    }
-</script>
 
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
+
 </html>
