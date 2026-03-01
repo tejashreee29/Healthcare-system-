@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Schedule - Personal Health Plan</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .schedule-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 40px;
+        }
+
+        .routine-card {
+            background: white;
+            padding: 25px 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-premium);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            border-left: 8px solid var(--secondary);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            border-left-width: 8px;
+        }
+
+        .routine-card:hover {
+            transform: translateX(10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .routine-card.completed {
+            border-left-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .routine-card.completed h4 {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .check-btn {
+            width: 35px;
+            height: 35px;
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .routine-card.completed .check-btn {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .goal-panel {
+            position: sticky;
+            top: 50px;
+            height: fit-content;
+        }
+
+        .progress-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary) 0%, #f1f5f9 0);
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: background 0.6s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-circle::after {
+            content: attr(data-progress) '%';
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--bg-dark);
+            letter-spacing: -1px;
+        }
+
+        .time-tag {
+            padding: 6px 15px;
+            border-radius: 50px;
+            background: #f1f5f9;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--bg-dark);
+        }
+    </style>
+</head>
+
+<body class="animate-fade">
+
+    <aside class="sidebar">
+        <div class="logo-container">
+            <div class="logo-icon">🏥</div>
+            <h2>AI Health</h2>
+        </div>
+
+        <ul class="sidebar-nav">
+            <li><a href="dashboard.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="aichatbot.html"><span>🤖</span> AI Chatbot</a></li>
+            <li><a href="appointments.html" class="active"><span>📅</span> Smart Schedule</a></li>
+            <li><a href="medications.html"><span>💊</span> Medications</a></li>
+            <li><a href="health-tracker.html"><span>📈</span> Health Tracker</a></li>
+            <li><a href="nearby-hospitals.html"><span>🏥</span> Nearby Hospitals</a></li>
+            <li><a href="medicalhistory.html"><span>📋</span> Medical History</a></li>
+            <li><a href="medicalrecords.html"><span>📂</span> Medical Records</a></li>
+            <li><a href="settings.html"><span>⚙️</span> Settings</a></li>
+        </ul>
+
+        <div class="logout">
+            <a href="#" onclick="logout()"><span>🚪</span> Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header style="margin-bottom: 50px;">
+            <p
+                style="text-transform: uppercase; font-weight: 800; font-size: 0.8rem; color: var(--secondary); letter-spacing: 2px; margin-bottom: 10px;">
+                Personalized Plan</p>
+            <h1 style="font-size: 2.8rem; letter-spacing: -1.5px;">Smart Schedule</h1>
+            <p id="current-date" style="color: var(--text-muted); font-weight: 500;"></p>
+        </header>
+
+        <div class="schedule-layout">
+            <section id="tasks-container">
+                <div class="routine-card" onclick="toggleTask(this)">
+                    <div class="check-btn">✓</div>
+                    <div style="flex: 1;">
+                        <h4 style="font-size: 1.15rem; margin-bottom: 5px;">Morning Hydration</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Drink 500ml water to kickstart
+                            metabolism</p>
+                    </div>
+                    <div class="time-tag" style="color: var(--secondary);">08:00 AM</div>
+                </div>
+
+                <div class="routine-card" style="border-left-color: var(--primary);" onclick="toggleTask(this)">
+                    <div class="check-btn">✓</div>
+                    <div style="flex: 1;">
+                        <h4 style="font-size: 1.15rem; margin-bottom: 5px;">Post-Lunch Walk</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">15-minute brisk walk for digestion and
+                            glucose control</p>
+                    </div>
+                    <div class="time-tag" style="color: var(--primary);">01:30 PM</div>
+                </div>
+
+                <div class="routine-card" style="border-left-color: var(--accent);" onclick="toggleTask(this)">
+                    <div class="check-btn">✓</div>
+                    <div style="flex: 1;">
+                        <h4 style="font-size: 1.15rem; margin-bottom: 5px;">Eye Strain Relief</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Practice 20-20-20 rule for digital
+                            wellness</p>
+                    </div>
+                    <div class="time-tag" style="color: var(--accent);">04:00 PM</div>
+                </div>
+
+                <div class="routine-card" style="border-left-color: var(--danger);" onclick="toggleTask(this)">
+                    <div class="check-btn">✓</div>
+                    <div style="flex: 1;">
+                        <h4 style="font-size: 1.15rem; margin-bottom: 5px;">Evening Meditation</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Deep breathing for 10 mins to reduce
+                            cortisol</p>
+                    </div>
+                    <div class="time-tag" style="color: var(--danger);">09:00 PM</div>
+                </div>
+            </section>
+
+            <section class="goal-panel">
+                <div class="card glass" style="text-align: center;">
+                    <h3 style="margin-bottom: 30px; font-size: 1.4rem;">Daily Progress</h3>
+                    <div class="progress-circle" id="progress-circle" data-progress="0"></div>
+                    <p id="progress-text"
+                        style="color: var(--text-muted); font-size: 0.95rem; font-weight: 500; line-height: 1.6;">
+                        Complete your tasks to improve your health score
+                    </p>
+                    <button id="generate-plan-btn" class="btn btn-primary"
+                        style="width: 100%; margin-top: 40px; padding: 18px;" onclick="generateNewPlan()">Generate New
+                        Plan ✨</button>
+                    <p style="margin-top: 20px; font-size: 0.8rem; color: var(--text-muted);">Plan adjusts based on your
+                        vitals</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Add Task Modal -->
+    <div id="add-task-modal" class="modal-overlay"
+        style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; backdrop-filter: blur(8px); align-items: center; justify-content: center;">
+        <div class="glass" style="width: 450px; padding: 40px; border-radius: 24px; position: relative;">
+            <button onclick="hideAddTaskModal()"
+                style="position: absolute; right: 25px; top: 25px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted);">×</button>
+            <h2 style="margin-bottom: 30px; letter-spacing: -1px;">Add Custom Task</h2>
+
+            <form id="task-form">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label>Task Name</label>
+                    <input type="text" id="t-name" class="form-input" placeholder="e.g. Afternoon Yoga" required>
+                </div>
+                <div class="form-row"
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                    <div class="form-group">
+                        <label>Time</label>
+                        <input type="time" id="t-time" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Theme</label>
+                        <select id="t-color" class="form-input">
+                            <option value="var(--primary)">Teal (Health)</option>
+                            <option value="var(--secondary)">Indigo (Focus)</option>
+                            <option value="var(--accent)">Orange (Energy)</option>
+                            <option value="var(--danger)">Red (Vital)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <label>Description</label>
+                    <input type="text" id="t-desc" class="form-input" placeholder="e.g. 15 mins of light stretching"
+                        required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 18px;">Add to Schedule
+                    ✨</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Set Date
+        const d = new Date();
+        document.getElementById('current-date').innerText = d.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+        function toggleTask(card, event) {
+            if (event.target.closest('.delete-task-btn')) return;
+            card.classList.toggle('completed');
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = document.querySelectorAll('.routine-card').length;
+            const completed = document.querySelectorAll('.routine-card.completed').length;
+            const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+            const circle = document.getElementById('progress-circle');
+            circle.style.background = `conic-gradient(var(--primary) ${percent}%, #f1f5f9 0)`;
+            circle.setAttribute('data-progress', percent);
+
+            const text = document.getElementById('progress-text');
+            if (total === 0) text.innerText = "Your schedule is empty. Add a task to start!";
+            else if (percent === 0) text.innerText = "Start your day by completing your first task!";
+            else if (percent < 100) text.innerText = `You've completed ${completed} out of ${total} tasks. Keep it up!`;
+            else text.innerHTML = "🎉 <strong>Perfect Day!</strong> All health targets achieved.";
+        }
+
+        function generateNewPlan() {
+            const btn = document.getElementById('generate-plan-btn');
+            const originalText = btn.innerText;
+            btn.disabled = true;
+            btn.innerText = '⚙️ Optimizing Plan...';
+
+            setTimeout(() => {
+                const container = document.getElementById('tasks-container');
+                container.style.opacity = '0.5';
+
+                setTimeout(() => {
+                    document.querySelectorAll('.routine-card').forEach(card => card.classList.remove('completed'));
+                    container.style.opacity = '1';
+                    btn.disabled = false;
+                    btn.innerText = '✅ Plan Optimized!';
+                    updateProgress();
+
+                    setTimeout(() => {
+                        btn.innerText = originalText;
+                    }, 2000);
+                }, 800);
+            }, 1000);
+        }
+
+        function showAddTaskModal() {
+            document.getElementById('add-task-modal').style.display = 'flex';
+        }
+
+        function hideAddTaskModal() {
+            document.getElementById('add-task-modal').style.display = 'none';
+        }
+
+        function deleteTask(btn) {
+            const card = btn.closest('.routine-card');
+            card.style.transform = 'scale(0.8) translateX(20px)';
+            card.style.opacity = '0';
+            setTimeout(() => {
+                card.remove();
+                updateProgress();
+            }, 300);
+        }
+
+        document.getElementById('task-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('t-name').value;
+            const time = document.getElementById('t-time').value;
+            const color = document.getElementById('t-color').value;
+            const desc = document.getElementById('t-desc').value;
+
+            const [h, m] = time.split(':');
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            const displayTime = `${(h % 12) || 12}:${m} ${ampm}`;
+
+            const container = document.getElementById('tasks-container');
+            const card = document.createElement('div');
+            card.className = 'routine-card';
+            card.style.borderLeftColor = color;
+            card.onclick = (e) => toggleTask(card, e);
+            card.innerHTML = `
+                <div class="check-btn">✓</div>
+                <div style="flex: 1;">
+                    <h4 style="font-size: 1.15rem; margin-bottom: 5px;">${name}</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">${desc}</p>
+                </div>
+                <div class="time-tag" style="color: ${color};">${displayTime}</div>
+                <button class="delete-task-btn" onclick="deleteTask(this)">🗑️</button>
+            `;
+
+            container.appendChild(card);
+            hideAddTaskModal();
+            updateProgress();
+            this.reset();
+        });
+
+        // Initialize existing cards
+        document.querySelectorAll('.routine-card').forEach(card => {
+            const trash = document.createElement('button');
+            trash.className = 'delete-task-btn';
+            trash.innerHTML = '🗑️';
+            trash.onclick = (e) => { e.stopPropagation(); deleteTask(trash); };
+            card.appendChild(trash);
+            card.onclick = (e) => toggleTask(card, e);
+        });
+
+        // Auth
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'login.html';
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        updateProgress();
+    </script>
+
+    <style>
+        .delete-task-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #cbd5e1;
+            margin-left: 15px;
+            transition: var(--transition);
+            opacity: 0.4;
+        }
+
+        .routine-card:hover .delete-task-btn {
+            opacity: 1;
+        }
+
+        .delete-task-btn:hover {
+            color: var(--danger) !important;
+            transform: scale(1.2);
+        }
+
+        .floating-add {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            border-radius: 50px;
+            padding: 18px 35px;
+            box-shadow: 0 15px 35px rgba(45, 206, 177, 0.35);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+        }
+    </style>
+    <button class="btn btn-primary floating-add" onclick="showAddTaskModal()">
+        <span style="font-size: 1.4rem;">+</span> Add Custom Task
+    </button>
+</body>
+
+</html>

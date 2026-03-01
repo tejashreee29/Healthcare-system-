@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Hospitals - AI Healthcare</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        .map-layout {
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 30px;
+            height: calc(100vh - 250px);
+        }
+
+        .list-panel {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-premium);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .list-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 25px;
+            background: #f8fafc;
+        }
+
+        .hospital-card {
+            padding: 20px;
+            border-radius: var(--border-radius-sm);
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .hospital-card:hover,
+        .hospital-card.active {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .hospital-card.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20px;
+            bottom: 20px;
+            width: 5px;
+            background: var(--primary);
+            border-radius: 0 5px 5px 0;
+        }
+
+        .hospital-card h4 {
+            color: var(--bg-dark);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .map-container {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-premium);
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .emergency-pill {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: var(--danger);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 800;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(239, 68, 68, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+
+        .search-box {
+            padding: 25px;
+            background: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="animate-fade">
+
+    <aside class="sidebar">
+        <div class="logo-container">
+            <div class="logo-icon">🏥</div>
+            <h2>AI Health</h2>
+        </div>
+
+        <ul class="sidebar-nav">
+            <li><a href="dashboard.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="aichatbot.html"><span>🤖</span> AI Chatbot</a></li>
+            <li><a href="appointments.html"><span>📅</span> Smart Schedule</a></li>
+            <li><a href="medications.html"><span>💊</span> Medications</a></li>
+            <li><a href="health-tracker.html"><span>📈</span> Health Tracker</a></li>
+            <li><a href="nearby-hospitals.html" class="active"><span>🏥</span> Nearby Hospitals</a></li>
+            <li><a href="medicalhistory.html"><span>📋</span> Medical History</a></li>
+            <li><a href="medicalrecords.html"><span>📂</span> Medical Records</a></li>
+            <li><a href="settings.html"><span>⚙️</span> Settings</a></li>
+        </ul>
+
+        <div class="logout">
+            <a href="#" onclick="logout()"><span>🚪</span> Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header style="margin-bottom: 40px;">
+            <p
+                style="text-transform: uppercase; font-weight: 800; font-size: 0.8rem; color: var(--primary); letter-spacing: 2px; margin-bottom: 10px;">
+                Emergency Services</p>
+            <h1 style="font-size: 2.8rem; letter-spacing: -1.5px;">Find Nearby Care</h1>
+        </header>
+
+        <div class="map-layout">
+            <div class="list-panel">
+                <div class="search-box">
+                    <input type="text" id="search-input" class="form-input" placeholder="Enter city or zip code..."
+                        style="margin-bottom: 15px; background: #f1f5f9;"
+                        onkeypress="if(event.key === 'Enter') searchLocation()">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button class="btn btn-outline" style="gap: 8px; font-size: 0.85rem;" onclick="searchLocation()"
+                            id="search-btn">
+                            <span>🔍</span> Search
+                        </button>
+                        <button class="btn btn-primary" style="gap: 8px; font-size: 0.85rem;" onclick="useCurrent()"
+                            id="locate-btn">
+                            <span>📍</span> Locate
+                        </button>
+                    </div>
+                </div>
+
+                <div class="list-scroll">
+                    <div class="hospital-card active" onclick="focusMap(40.7589, -73.9851)">
+                        <h4>City General Hospital</h4>
+                        <div class="info-row">
+                            <span>📍</span> 123 Medical Center Dr • 0.8 mi
+                        </div>
+                        <div class="info-row">
+                            <span style="color: var(--success);">● Open 24/7</span>
+                        </div>
+                        <div style="margin-top: 15px; display: flex; gap: 10px;">
+                            <span class="btn btn-outline"
+                                style="padding: 8px 15px; font-size: 0.75rem; flex: 1;">Directions</span>
+                            <span class="btn btn-outline"
+                                style="padding: 8px 15px; font-size: 0.75rem; flex: 1;">Call</span>
+                        </div>
+                    </div>
+
+                    <div class="hospital-card" onclick="focusMap(40.7614, -73.9776)">
+                        <h4>Emergency Care Plus</h4>
+                        <div class="info-row">
+                            <span>📍</span> 456 Emergency Blvd • 1.2 mi
+                        </div>
+                        <div class="info-row">
+                            <span style="color: var(--success);">● Open 24/7</span>
+                        </div>
+                        <div style="margin-top: 15px; display: flex; gap: 10px;">
+                            <span class="btn btn-outline"
+                                style="padding: 8px 15px; font-size: 0.75rem; flex: 1;">Directions</span>
+                            <span class="btn btn-outline"
+                                style="padding: 8px 15px; font-size: 0.75rem; flex: 1;">Call</span>
+                        </div>
+                    </div>
+
+                    <div class="hospital-card" onclick="focusMap(40.7549, -73.9840)">
+                        <h4>Wellness Family Clinic</h4>
+                        <div class="info-row">
+                            <span>📍</span> 789 Health Ave • 1.5 mi
+                        </div>
+                        <div class="info-row">
+                            <span style="color: var(--accent);">● Closes at 8:00 PM</span>
+                        </div>
+                        <div style="margin-top: 15px; display: flex; gap: 10px;">
+                            <span class="btn btn-outline"
+                                style="padding: 8px 15px; font-size: 0.75rem; flex: 1;">Directions</span>
+                            <span class="btn btn-outline"
+                                style="padding: 8px 15px; font-size: 0.75rem; flex: 1;">Call</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <a href="tel:911" class="emergency-pill">🚨 <span>EMERGENCY CALL</span></a>
+                <div id="map"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ✅ Authentication Check
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'login.html';
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        const map = L.map('map').setView([40.7589, -73.9851], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        const hospitalIcon = L.divIcon({
+            className: 'custom-icon',
+            html: '<div style="background: var(--primary); color: white; width: 35px; height: 35px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 3px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.15);">🏥</div>',
+            iconSize: [35, 35]
+        });
+
+        L.marker([40.7589, -73.9851], { icon: hospitalIcon }).addTo(map);
+        L.marker([40.7614, -73.9776], { icon: hospitalIcon }).addTo(map);
+        L.marker([40.7549, -73.9840], { icon: hospitalIcon }).addTo(map);
+
+        function focusMap(lat, lng) {
+            map.setView([lat, lng], 15);
+            // Update active state in list
+            document.querySelectorAll('.hospital-card').forEach(card => card.classList.remove('active'));
+            if (event.currentTarget.classList) event.currentTarget.classList.add('active');
+        }
+
+        async function searchLocation() {
+            const query = document.getElementById('search-input').value.trim();
+            if (!query) return;
+
+            const btn = document.getElementById('search-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Searching...';
+            btn.disabled = true;
+
+            try {
+                // Using OpenStreetMap Nominatim for free geocoding
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+                const data = await response.json();
+
+                if (data && data.length > 0) {
+                    const { lat, lon } = data[0];
+                    map.setView([lat, lon], 14);
+                    L.marker([lat, lon]).addTo(map).bindPopup(`<b>${query}</b>`).openPopup();
+                } else {
+                    alert('❌ Location not found. Please try again.');
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+                alert('⚠️ Map search service is currently unavailable.');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        function useCurrent() {
+            const btn = document.getElementById('locate-btn');
+            btn.disabled = true;
+
+            if (!navigator.geolocation) {
+                alert('Geolocation is not supported by your browser');
+                btn.disabled = false;
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+
+                map.setView([lat, lng], 14);
+
+                L.marker([lat, lng], {
+                    icon: L.divIcon({
+                        className: 'user-icon',
+                        html: '<div style="background: var(--secondary); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; border: 4px solid white; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);">👤</div>',
+                        iconSize: [45, 45]
+                    })
+                }).addTo(map).bindPopup("<b>You are here</b>").openPopup();
+                btn.disabled = false;
+
+            }, () => {
+                alert('❌ Unable to retrieve your location. Please check your browser permissions.');
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+
+</html>
+
+</html>

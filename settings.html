@@ -1,253 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Settings - Healthcare Chatbot</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-      * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: 'Arial', sans-serif;
-      }
-
-      html, body {
-          height: 100%;
-          margin: 0;
-          padding: 0;
-          background-color: #ffffff;
-      }
-
-      .main-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          min-height: 100vh; /* Fixed the cut-off issue */
-          background: linear-gradient(to right, #e0f7fa, #b2ebf2);
-          color: #333;
-          padding: 20px;
-          overflow-y: auto; /* Allow scrolling if needed */
-      }
-
-      .content {
-          width: 100%;
-          max-width: 600px;
-          padding: 40px;
-          background: rgba(255, 255, 255, 0.9);
-          border-radius: 12px;
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-          backdrop-filter: blur(10px);
-          text-align: left;
-      }
-
-      h1 {
-          font-size: 36px;
-          margin-bottom: 10px;
-          color: #00796b;
-          text-align: center;
-      }
-
-      .settings-section h2 {
-          font-size: 24px;
-          color: #004d40;
-          margin-top: 20px;
-      }
-
-      .form-group {
-          margin-bottom: 15px;
-      }
-
-      .form-group label {
-          font-weight: bold;
-          color: #004d40;
-      }
-
-      .form-group input, .form-group select {
-          width: 100%;
-          max-width: 400px;
-          padding: 10px;
-          font-size: 16px;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          box-sizing: border-box;
-      }
-
-      .btn-primary {
-          background-color: #00796b;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          font-size: 16px;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: background-color 0.3s;
-      }
-
-      .btn-primary:hover {
-          background-color: #005a4f;
-      }
-
-      .hamburger-menu {
-          position: fixed;
-          top: 20px;
-          left: 20px;
-          cursor: pointer;
-          font-size: 30px;
-          color: #00796b;
-          z-index: 10;
-      }
-
-      .hamburger-popup {
-          display: none;
-          position: fixed;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 280px;
-          background: linear-gradient(to bottom, #e0f7fa, #b2ebf2);
-          color: #333;
-          padding: 40px;
-          box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
-          transition: transform 0.3s ease-in-out;
-          transform: translateX(-100%);
-          overflow-y: auto;
-          backdrop-filter: blur(10px);
-      }
-
-      .hamburger-popup.active {
-          transform: translateX(0);
-          display: block;
-      }
-
-      .hamburger-popup ul {
-          list-style: none;
-          padding: 0;
-          margin-top: 40px;
-          text-align: left;
-      }
-
-      .hamburger-popup ul li {
-          margin: 20px 0;
-          font-size: 20px;
-      }
-
-      .hamburger-popup ul li a {
-          color: #004d40;
-          text-decoration: none;
-          display: block;
-          font-weight: bold;
-      }
-
-      .hamburger-popup ul li a:hover {
-          text-decoration: underline;
-          color: #00796b;
-      }
-
-      .close-menu {
-          position: absolute;
-          top: 20px;
-          right: 20px;
-          cursor: pointer;
-          font-size: 30px;
-          color: white;
-      }
-
-  </style>
 </head>
-<body>
 
-  <!-- Hamburger Menu -->
-  <div class="hamburger-menu" onclick="toggleMenu()">&#9776;</div>
+<body class="animate-fade">
 
-  <div class="main-container">
-    <div class="content">
-      <header>
-        <h1>Settings</h1>
-        <p>Manage your preferences and account settings.</p>
-      </header>
-      
-      <!-- Settings Form -->
-      <section class="settings-section">
-        <form action="settings-process.php" method="POST">
-          <!-- Username Update -->
-          <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-          </div>
-
-          <!-- Email Update -->
-          <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-          </div>
-
-          <!-- Birth Date -->
-          <div class="form-group">
-            <label for="birth-date">Birth Date:</label>
-            <input type="date" id="birth-date" name="birth-date" required>
-          </div>
-
-          <!-- Phone Number -->
-          <div class="form-group">
-            <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
-          </div>
-
-          <!-- Address -->
-          <div class="form-group">
-            <label for="address">Address:</label>
-            <input type="text" id="address" name="address" placeholder="Enter address" required>
-          </div>
-
-          <!-- Password Update -->
-          <div class="form-group">
-            <label for="old-password">Old Password:</label>
-            <input type="password" id="old-password" name="old-password" placeholder="Enter old password" required>
-          </div>
-
-          <div class="form-group">
-            <label for="new-password">New Password:</label>
-            <input type="password" id="new-password" name="new-password" placeholder="Enter new password" required>
-          </div>
-
-          <!-- Manage Preferences -->
-          <div class="form-group">
-            <label for="preferences">Manage Preferences:</label>
-            <select id="preferences" name="preferences">
-              <option value="notifications">Notification Settings</option>
-              <option value="theme">Theme Preferences</option>
-              <option value="privacy">Privacy Settings</option>
-            </select>
-          </div>
-
-          <button type="submit" class="btn-primary">Save Changes</button>
-        </form>
-      </section>
-    </div>
-  </div>
-
-  <!-- Hamburger Menu Popup -->
-  <div id="hamburger-popup" class="hamburger-popup">
-    <div class="close-menu" onclick="toggleMenu()">&times;</div>
-    <ul>
-      <li><a href="homepage.html">Homepage</a></li>
-      <li><a href="aichatbot.html">AI Chatbot</a></li>
-      <li><a href="symptoms-checker.html">Symptoms Checker</a></li>
-      <li><a href="medicalhistory.html">Medical History Form</a></li>
-      <li><a href="healthcare-tips.html">Healthcare & Mental Health Tips</a></li>
-      <li><a href="emergency-contacts.html">Emergency Contacts</a></li>
-      <li><a href="settings.html">Settings</a></li>
-    </ul>
-  </div>
-
-  <script>
-    function toggleMenu() {
-        document.getElementById('hamburger-popup').classList.toggle('active');
+  <style>
+    .settings-layout {
+      max-width: 900px;
+      margin: 0 auto;
     }
-  </script>
 
-</body>
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 40px;
+    }
+
+    .profile-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .profile-nav-link {
+      padding: 15px 25px;
+      border-radius: 15px;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 700;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+    }
+
+    .profile-nav-link:hover {
+      background: rgba(0, 0, 0, 0.03);
+      color: var(--bg-dark);
+    }
+
+    .profile-nav-link.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: var(--shadow-premium);
+    }
+
+    .settings-card {
+      background: white;
+      padding: 40px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-premium);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-bottom: 25px;
+    }
+
+    .avatar-upload {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .avatar-large {
+      width: 100px;
+      height: 100px;
+      background: var(--bg-gradient);
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 800;
+      box-shadow: 0 10px 25px rgba(45, 206, 177, 0.3);
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--bg-dark);
+      font-size: 0.9rem;
+    }
+
+    .form-input {
+      height: 55px;
+      background: #f8fafc;
+      border: 2px solid transparent;
+      padding: 0 20px;
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      background: white;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(45, 206, 177, 0.1);
+    }
+  </style>
+  </head>
+
+  <body class="animate-fade">
+
+    <aside class="sidebar">
+      <div class="logo-container">
+        <div class="logo-icon">🏥</div>
+        <h2>AI Health</h2>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html"><span>📊</span> Dashboard</a></li>
+        <li><a href="aichatbot.html"><span>🤖</span> AI Chatbot</a></li>
+        <li><a href="appointments.html"><span>📅</span> Smart Schedule</a></li>
+        <li><a href="medications.html"><span>💊</span> Medications</a></li>
+        <li><a href="health-tracker.html"><span>📈</span> Health Tracker</a></li>
+        <li><a href="nearby-hospitals.html"><span>🏥</span> Nearby Hospitals</a></li>
+        <li><a href="medicalhistory.html"><span>📋</span> Medical History</a></li>
+        <li><a href="medicalrecords.html"><span>📂</span> Medical Records</a></li>
+        <li><a href="settings.html" class="active"><span>⚙️</span> Settings</a></li>
+      </ul>
+
+      <div class="logout">
+        <a href="#" onclick="logout()"><span>🚪</span> Logout</a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header style="margin-bottom: 50px;">
+        <p
+          style="text-transform: uppercase; font-weight: 800; font-size: 0.8rem; color: var(--accent); letter-spacing: 2px; margin-bottom: 10px;">
+          Configuration</p>
+        <h1 style="font-size: 2.8rem; letter-spacing: -1.5px;">Settings</h1>
+      </header>
+
+      <div class="settings-layout">
+        <div class="settings-grid">
+          <nav class="profile-nav">
+            <a href="#" class="profile-nav-link active"><span>👤</span> Account Info</a>
+          </nav>
+
+          <div class="settings-card">
+            <div class="avatar-upload">
+              <div class="avatar-large" id="profile-avatar">U</div>
+              <div>
+                <h3 style="margin-bottom: 5px;">Profile Picture</h3>
+                <div style="display: flex; gap: 10px;">
+                  <button class="btn-primary" onclick="document.getElementById('avatar-input').click()"
+                    style="padding: 10px 20px; font-size: 0.85rem; border-radius: 12px;">Change Image</button>
+                  <button class="btn-outline" onclick="removeAvatar()"
+                    style="padding: 10px 20px; font-size: 0.85rem; border-radius: 12px;">Remove</button>
+                  <input type="file" id="avatar-input" style="display: none;" accept="image/*"
+                    onchange="previewAvatar(event)">
+                </div>
+              </div>
+            </div>
+
+            <form id="settings-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Username</label>
+                  <input type="text" class="form-input" id="setting-username" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                  <label>Email Address</label>
+                  <input type="email" class="form-input" id="setting-email" placeholder="Enter email">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Phone Number</label>
+                  <input type="tel" class="form-input" placeholder="+1 (555) 000-0000">
+                </div>
+                <div class="form-group">
+                  <label>Birth Date</label>
+                  <input type="date" class="form-input">
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 25px;">
+                <label>Location / Address</label>
+                <input type="text" class="form-input" placeholder="City, Country">
+              </div>
+
+              <div
+                style="padding-top: 30px; border-top: 1px solid #f1f5f9; display: flex; justify-content: flex-end; gap: 15px;">
+                <button type="button" class="btn-outline" style="padding: 15px 30px;">Cancel</button>
+                <button type="submit" class="btn-primary"
+                  style="padding: 15px 40px; box-shadow: 0 10px 20px rgba(45, 206, 177, 0.2);">Save Changes ✨</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Init form with local data
+      const email = localStorage.getItem('userEmail');
+      if (email) {
+        document.getElementById('setting-email').value = email;
+        const user = email.split('@')[0];
+        document.getElementById('setting-username').value = user;
+        document.getElementById('profile-avatar').innerText = user[0].toUpperCase();
+      }
+
+      if (!localStorage.getItem('isLoggedIn')) {
+        window.location.href = 'login.html';
+      }
+
+      function logout() {
+        localStorage.clear();
+        window.location.href = 'index.html';
+      }
+
+      document.getElementById('settings-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button[type="submit"]');
+        btn.innerText = '✅ Saved!';
+        setTimeout(() => btn.innerText = 'Save Changes ✨', 2000);
+      });
+
+      function previewAvatar(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const avatar = document.getElementById('profile-avatar');
+          avatar.innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">`;
+          localStorage.setItem('userAvatar', e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function removeAvatar() {
+        const email = localStorage.getItem('userEmail');
+        const avatar = document.getElementById('profile-avatar');
+        avatar.innerHTML = email ? email[0].toUpperCase() : 'U';
+        localStorage.removeItem('userAvatar');
+        document.getElementById('avatar-input').value = ''; // Clear the file input
+      }
+
+      // Load saved avatar on page load
+      const savedAvatar = localStorage.getItem('userAvatar');
+      if (savedAvatar) {
+        document.getElementById('profile-avatar').innerHTML = `<img src="${savedAvatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">`;
+      }
+    </script>
+  </body>
+
+</html>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,20 +14,23 @@
             color: #1a365d;
             text-align: center;
         }
+
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px 40px;
             background: linear-gradient(to right, #2b6cb0, #4299e1);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .navbar .logo {
             font-size: 24px;
             font-weight: bold;
             color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
+
         .navbar a {
             color: white;
             text-decoration: none;
@@ -36,10 +40,12 @@
             padding: 8px 15px;
             border-radius: 20px;
         }
+
         .navbar a:hover {
-            background-color: rgba(255,255,255,0.2);
+            background-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
+
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -48,6 +54,7 @@
             max-width: 1200px;
             padding: 0 20px;
         }
+
         .card {
             background: white;
             width: 280px;
@@ -55,37 +62,43 @@
             padding: 20px;
             border-radius: 12px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             border: 1px solid #e2e8f0;
         }
+
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
             border-color: #4299e1;
         }
+
         .card img {
             width: 100%;
             border-radius: 8px;
             margin-bottom: 15px;
             border: 2px solid #e2e8f0;
         }
+
         .card h3 {
             color: #2b6cb0;
             margin: 10px 0;
             font-size: 1.3rem;
         }
+
         .card p {
             color: #4a5568;
             font-size: 0.95rem;
             line-height: 1.5;
         }
+
         h1 {
             color: #2b6cb0;
             margin-top: 40px;
             font-size: 2.5rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
+
         p {
             color: #4a5568;
             font-size: 1.1rem;
@@ -93,6 +106,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="navbar">
         <div class="logo"> AI Heathcare </div>
@@ -102,29 +116,68 @@
             <a href="contact-us.html">Contact Us</a>
         </div>
     </div>
-    <h1>Welcome, User!</h1>
+    <h1>Welcome, User! 👋</h1>
     <p>Empowering Healthcare with AI-Powered Solutions.</p>
     <div class="container">
-        <div class="card">
-            <img src="images/aichatbot1.jpg" alt="AI Chatbot">
-            <h3>AI Chatbot</h3>
-            <p>Get real-time health assistance with AI.</p>
-        </div>
-        <div class="card">
-            <img src="images/symptom-checker1.jpg" alt="Symptom Checker">
-            <h3>Symptom Checker</h3>
-            <p>Enter symptoms and get AI-based medical guidance.</p>
-        </div>
-        <div class="card">
-            <img src="images/medical-history1.jpg" alt="Medical History">
-            <h3>Medical History</h3>
-            <p>View and update your medical records securely.</p>
-        </div>
-        <div class="card">
-            <img src="images/healthcaretips.jpg" alt="Healthcare Tips">
-            <h3>Healthcare Tips</h3>
-            <p>Learn essential health tips for daily care.</p>
-        </div>
+        <a href="aichatbot.html" style="text-decoration: none;">
+            <div class="card">
+                <img src="images/aichatbot1.jpg" alt="AI Chatbot">
+                <h3>AI Chatbot</h3>
+                <p>Get real-time health assistance with AI.</p>
+            </div>
+        </a>
+        <a href="symptoms-checker.html" style="text-decoration: none;">
+            <div class="card">
+                <img src="images/symptom-checker1.jpg" alt="Symptom Checker">
+                <h3>Symptom Checker</h3>
+                <p>Enter symptoms and get AI-based medical guidance.</p>
+            </div>
+        </a>
+        <a href="medicalhistory.html" style="text-decoration: none;">
+            <div class="card">
+                <img src="images/medical-history1.jpg" alt="Medical History">
+                <h3>Medical History</h3>
+                <p>View and update your medical records securely.</p>
+            </div>
+        </a>
+        <a href="healthcare-tips.html" style="text-decoration: none;">
+            <div class="card">
+                <img src="images/healthcaretips.jpg" alt="Healthcare Tips">
+                <h3>Healthcare Tips</h3>
+                <p>Learn essential health tips for daily care.</p>
+            </div>
+        </a>
+        <a href="dashboard.html" style="text-decoration: none;">
+            <div class="card">
+                <h3>📊 Health Dashboard</h3>
+                <p>Track your vitals and health metrics in real-time.</p>
+            </div>
+        </a>
+        <a href="appointments.html" style="text-decoration: none;">
+            <div class="card">
+                <h3>📅 Book Appointment</h3>
+                <p>Schedule appointments with healthcare professionals.</p>
+            </div>
+        </a>
+        <a href="medications.html" style="text-decoration: none;">
+            <div class="card">
+                <h3>💊 Medications</h3>
+                <p>Track your medications and get reminders.</p>
+            </div>
+        </a>
+        <a href="health-tracker.html" style="text-decoration: none;">
+            <div class="card">
+                <h3>📈 Health Tracker</h3>
+                <p>Monitor your vital signs and health goals.</p>
+            </div>
+        </a>
+        <a href="nearby-hospitals.html" style="text-decoration: none;">
+            <div class="card">
+                <h3>🏥 Find Hospitals</h3>
+                <p>Locate nearby healthcare facilities easily.</p>
+            </div>
+        </a>
     </div>
 </body>
+
 </html>

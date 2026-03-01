@@ -1,166 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up - Healthcare Chatbot</title>
-  <style>
-      * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: 'Arial', sans-serif;
-      }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join AI Healthcare - Create Account</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: #f1f5f9;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(45, 206, 177, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 60px 0;
+        }
 
-      /* Body background similar to Login Page */
-      body {
-          min-height: 100vh;
-          background-color: #0f2e4d;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-      }
+        .signup-card {
+            max-width: 550px;
+            width: 90%;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 60px;
+            box-shadow: var(--shadow-premium);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
 
-      /* Form container similar to Login Page */
-      .form-container {
-          background-color: #1a3d5d;
-          padding: 40px;
-          border-radius: 12px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-          width: 100%;
-          max-width: 400px;
-          text-align: center;
-      }
+        .brand-logo {
+            width: 60px;
+            height: 60px;
+            background: var(--bg-gradient);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(45, 206, 177, 0.2);
+        }
 
-      /* Heading color similar to login */
-      h2 {
-          font-size: 24px;
-          color: #4cb5f5;
-          margin-bottom: 15px;
-      }
+        .signup-card h2 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            letter-spacing: -1.5px;
+            color: var(--bg-dark);
+        }
 
-      /* Label and input fields */
-      label {
-          font-weight: bold;
-          text-align: left;
-          display: block;
-          margin-bottom: 8px;
-          color: #a8c6d1;
-      }
+        .signup-card p {
+            color: var(--text-muted);
+            margin-bottom: 45px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
 
-      input, select {
-          width: 100%;
-          padding: 12px;
-          margin-bottom: 15px;
-          border: none;
-          border-radius: 5px;
-          background-color: #f9f9f9;
-          color: #333;
-      }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
 
-      input::placeholder {
-          color: #b0b0b0;
-      }
+        .form-group.full {
+            grid-column: span 2;
+        }
 
-      /* Button identical to Login Page */
-      button {
-          width: 100%;
-          padding: 12px;
-          border: none;
-          border-radius: 5px;
-          background-color: #4cb5f5;
-          color: white;
-          font-size: 18px;
-          font-weight: bold;
-          cursor: pointer;
-          transition: background 0.3s;
-      }
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--bg-dark);
+            font-size: 0.85rem;
+        }
 
-      button:hover {
-          background-color: #8ac6d1;
-      }
+        .form-input {
+            height: 55px;
+            background: #f8fafc;
+            border: 2px solid transparent;
+            padding: 0 20px;
+            font-size: 0.95rem;
+        }
 
-      /* Link to Login Page */
-      p {
-          margin-top: 15px;
-          color: white;
-      }
+        .form-input:focus {
+            background: white;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(45, 206, 177, 0.1);
+        }
 
-      a {
-          color: #4cb5f5;
-          text-decoration: none;
-      }
+        .signup-btn {
+            width: 100%;
+            padding: 18px;
+            margin-top: 30px;
+            font-size: 1.05rem;
+            box-shadow: 0 10px 20px rgba(45, 206, 177, 0.2);
+        }
 
-      a:hover {
-          text-decoration: underline;
-      }
-  </style>
+        .login-link {
+            margin-top: 40px;
+            font-size: 0.95rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .login-link a {
+            color: var(--primary);
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        @media (max-width: 500px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: span 1;
+            }
+
+            .signup-card {
+                padding: 40px 30px;
+            }
+        }
+    </style>
 </head>
-<body>
 
-<div class="form-container">
-    <h2>Create an Account</h2>
-    <form id="signup-form">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+<body class="animate-fade">
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+    <div class="signup-card">
+        <div class="brand-logo">🏥</div>
+        <h2>Create Your Health ID</h2>
+        <p>Join thousands of users using AI to manage their wellness journey. It only takes a minute.</p>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <form id="signup-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName" class="form-input" placeholder="Enter Full Name" required>
+                </div>
 
-        <label for="gender">Gender</label>
-        <select id="gender" name="gender" required>
-          <option value="" disabled selected>Select your gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="age" class="form-input" placeholder="Years" required>
+                </div>
 
-        <label for="mobile">Mobile Number</label>
-        <input type="tel" id="mobile" name="mobile" placeholder="Enter your mobile number" pattern="[0-9]{10}" required>
+                <div class="form-group full">
+                    <label>Email Address</label>
+                    <input type="email" id="email" class="form-input" placeholder="name@example.com" required>
+                </div>
 
-        <label for="age">Age</label>
-        <input type="number" id="age" name="age" placeholder="Enter your age" min="1" required>
+                <div class="form-group full">
+                    <label>Create Secure Password</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                </div>
 
-        <button type="submit">Sign Up</button>
-    </form>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="gender" class="form-input" required>
+                        <option value="">Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
 
-    <p>Already have an account? <a href="login.html">Login</a></p>
-</div>
+                <div class="form-group">
+                    <label>Phone (Optional)</label>
+                    <input type="tel" id="phone" class="form-input" placeholder="+1 (555) 000-0000">
+                </div>
+            </div>
 
-<script>
-  // Handle form submission
-  document.getElementById('signup-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
+            <p
+                style="text-align: left; font-size: 0.85rem; margin-top: 25px; color: var(--text-muted); line-height: 1.5;">
+                By signing up, you agree to our <a href="#" style="color: var(--secondary); font-weight: 600;">Terms</a>
+                and <a href="#" style="color: var(--secondary); font-weight: 600;">Privacy Policy</a>.
+            </p>
 
-      const formData = {
-          name: document.getElementById('name').value,
-          email: document.getElementById('email').value,
-          password: document.getElementById('password').value,
-          mobile: document.getElementById('mobile').value,
-          age: document.getElementById('age').value,
-          gender: document.getElementById('gender').value
-      };
+            <button type="submit" class="btn btn-primary signup-btn">Complete Registration ✨</button>
+        </form>
 
-      // Send data to backend API
-      const response = await fetch('http://localhost:3000/signup', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-      });
+        <div class="login-link">
+            Already have an account? <a href="login.html">Sign In</a>
+        </div>
+    </div>
 
-      const data = await response.json();
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
 
-      if (response.ok) {
-          alert(data.message);
-          window.location.href = `medicalhistory.html?userId=${data.userId}`;
-      } else {
-          alert('Signup failed: ' + data.message);
-      }
-  });
-</script>
+            const name = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const mobile = document.getElementById('phone').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password, age, gender, mobile })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('✅ Registration successful! Please login.');
+                    window.location.href = 'login.html';
+                } else {
+                    alert('❌ ' + data.message);
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                alert('❌ Registration failed. Please try again.');
+            }
+        });
+    </script>
 
 </body>
+
 </html>

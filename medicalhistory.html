@@ -1,187 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medical History - Healthcare Chatbot</title>
-  <style>
-      * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: 'Arial', sans-serif;
-      }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical History - AI Healthcare</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .history-layout {
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-      /* Body background similar to Signup/Login Page */
-      body {
-          min-height: 100vh;
-          background-color: #0f2e4d;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-      }
+        .form-section {
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-premium);
+            margin-bottom: 40px;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: var(--transition);
+        }
 
-      /* Form container identical to Signup/Login */
-      .form-container {
-          background-color: #1a3d5d;
-          padding: 40px;
-          border-radius: 12px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-          width: 100%;
-          max-width: 600px;
-          text-align: center;
-      }
+        .form-section:hover {
+            box-shadow: var(--shadow-hover);
+        }
 
-      /* Heading style */
-      h2 {
-          font-size: 24px;
-          color: #4cb5f5;
-          margin-bottom: 15px;
-      }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--bg-dark);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            letter-spacing: -0.5px;
+        }
 
-      /* Label and input fields */
-      label {
-          font-weight: bold;
-          text-align: left;
-          display: block;
-          margin-bottom: 8px;
-          color: #a8c6d1;
-      }
+        .section-title span {
+            width: 45px;
+            height: 45px;
+            background: rgba(45, 206, 177, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
 
-      textarea, input, select {
-          width: 100%;
-          padding: 12px;
-          margin-bottom: 15px;
-          border: none;
-          border-radius: 5px;
-          background-color: #f9f9f9;
-          color: #333;
-      }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
 
-      textarea {
-          resize: none;
-          height: 70px;
-      }
+        .full-width {
+            grid-column: span 2;
+        }
 
-      /* Button style identical to Signup/Login */
-      button {
-          width: 100%;
-          padding: 12px;
-          border: none;
-          border-radius: 5px;
-          background-color: #4cb5f5;
-          color: white;
-          font-size: 18px;
-          font-weight: bold;
-          cursor: pointer;
-          transition: background 0.3s;
-      }
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--bg-dark);
+            font-size: 0.95rem;
+        }
 
-      button:hover {
-          background-color: #8ac6d1;
-      }
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+            padding: 18px 25px;
+        }
 
-      /* Link style */
-      p {
-          margin-top: 15px;
-          color: white;
-      }
+        input.form-input,
+        select.form-input {
+            height: 55px;
+            padding: 0 25px;
+            background: #f8fafc;
+            border: 2px solid transparent;
+        }
 
-      a {
-          color: #4cb5f5;
-          text-decoration: none;
-      }
+        input.form-input:focus,
+        select.form-input:focus,
+        textarea.form-input:focus {
+            background: white;
+            border-color: var(--primary);
+        }
 
-      a:hover {
-          text-decoration: underline;
-      }
-  </style>
+        .security-banner {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.1);
+            padding: 20px 30px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+    </style>
 </head>
-<body>
 
-<div class="form-container">
-    <h2>Medical History Form</h2>
-    <form id="medical-history-form">
+<body class="animate-fade">
 
-        <label for="chronic-conditions">Chronic Conditions</label>
-        <textarea id="chronic-conditions" name="chronic_conditions" placeholder="e.g., Diabetes, Hypertension" required></textarea>
+    <aside class="sidebar">
+        <div class="logo-container">
+            <div class="logo-icon">🏥</div>
+            <h2>AI Health</h2>
+        </div>
 
-        <label for="allergies">Allergies</label>
-        <textarea id="allergies" name="allergies" placeholder="List any allergies" required></textarea>
+        <ul class="sidebar-nav">
+            <li><a href="dashboard.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="aichatbot.html"><span>🤖</span> AI Chatbot</a></li>
+            <li><a href="appointments.html"><span>📅</span> Smart Schedule</a></li>
+            <li><a href="medications.html"><span>💊</span> Medications</a></li>
+            <li><a href="health-tracker.html"><span>📈</span> Health Tracker</a></li>
+            <li><a href="nearby-hospitals.html"><span>🏥</span> Nearby Hospitals</a></li>
+            <li><a href="medicalhistory.html" class="active"><span>📋</span> Medical History</a></li>
+            <li><a href="medicalrecords.html"><span>📂</span> Medical Records</a></li>
+            <li><a href="settings.html"><span>⚙️</span> Settings</a></li>
+        </ul>
 
-        <label for="medications">Current Medications</label>
-        <textarea id="medications" name="medications" placeholder="List any medications"></textarea>
+        <div class="logout">
+            <a href="#" onclick="logout()"><span>🚪</span> Logout</a>
+        </div>
+    </aside>
 
-        <label for="past-surgeries">Past Surgeries</label>
-        <textarea id="past-surgeries" name="past_surgeries" placeholder="List any past surgeries"></textarea>
+    <main class="main-content">
+        <header style="margin-bottom: 50px;">
+            <p
+                style="text-transform: uppercase; font-weight: 800; font-size: 0.8rem; color: var(--primary); letter-spacing: 2px; margin-bottom: 10px;">
+                Personal Records</p>
+            <h1 style="font-size: 2.8rem; letter-spacing: -1.5px;">Medical Profile</h1>
+        </header>
 
-        <label for="height">Height (cm)</label>
-        <input type="number" id="height" name="height" placeholder="e.g., 170" required>
+        <div class="history-layout">
+            <div class="security-banner">
+                <span style="font-size: 1.5rem;">🔒</span>
+                <p style="font-size: 0.9rem; color: #065f46; font-weight: 600; line-height: 1.5;">
+                    Your medical data is encrypted and stored securely. This information is only used to personalize
+                    your AI health insights and treatment plans.
+                </p>
+            </div>
 
-        <label for="weight">Weight (kg)</label>
-        <input type="number" id="weight" name="weight" placeholder="e.g., 65" required>
+            <form id="medical-form">
+                <section class="form-section">
+                    <div class="section-title"><span>🩺</span> Clinical Background</div>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Chronic Conditions</label>
+                            <textarea class="form-input"
+                                placeholder="List existing conditions like Diabetes, Hypertension, etc."></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Allergies & Sensitivities</label>
+                            <textarea class="form-input"
+                                placeholder="e.g. Medications, Food, Environmental factors"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Blood Group</label>
+                            <select class="form-input">
+                                <option>Select Blood Type</option>
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>B+</option>
+                                <option>B-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
+                                <option>O+</option>
+                                <option>O-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Medical Checkup</label>
+                            <input type="date" class="form-input">
+                        </div>
+                    </div>
+                </section>
 
-        <label for="blood-group">Blood Group</label>
-        <select id="blood-group" name="blood_group" required>
-          <option value="" disabled selected>Select your blood group</option>
-          <option value="A+">A+</option>
-          <option value="A-">A-</option>
-          <option value="B+">B+</option>
-          <option value="B-">B-</option>
-          <option value="O+">O+</option>
-          <option value="O-">O-</option>
-          <option value="AB+">AB+</option>
-          <option value="AB-">AB-</option>
-        </select>
+                <section class="form-section">
+                    <div class="section-title"><span>🏨</span> Hospitalization & Surgeries</div>
+                    <div class="form-group full-width">
+                        <label>Past Procedures</label>
+                        <textarea class="form-input"
+                            placeholder="Describe any past surgeries or extended hospital stays with approximate dates"></textarea>
+                    </div>
+                </section>
 
-        <label for="lifestyle">Lifestyle Information</label>
-        <textarea id="lifestyle" name="lifestyle" placeholder="Describe your daily habits, diet, exercise, smoking, alcohol consumption, etc."></textarea>
+                <section class="form-section">
+                    <div class="section-title"><span>🍎</span> Lifestyle & Habits</div>
+                    <div class="form-group full-width">
+                        <label>General Habits</label>
+                        <textarea class="form-input"
+                            placeholder="Exercise frequency, diet preferences, smoking/alcohol status, etc."></textarea>
+                    </div>
+                </section>
 
-        <label for="additional-info">Additional Medical Information</label>
-        <textarea id="additional-info" name="additional_info" placeholder="Any other medical details you would like to share"></textarea>
+                <button type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 22px; font-size: 1.2rem; margin-bottom: 60px; box-shadow: 0 15px 30px rgba(45, 206, 177, 0.3);">
+                    Save Medical Profile 💾
+                </button>
+            </form>
+        </div>
+    </main>
 
-        <button type="submit">Submit</button>
-    </form>
-</div>
+    <script>
+        // Auth
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'login.html';
+        }
 
-<script>
-  // Handle form submission
-  document.getElementById('medical-history-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
 
-      // Get the userId from the URL (signup page redirects to this page)
-      const userId = new URLSearchParams(window.location.search).get('userId');
+        document.getElementById('medical-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Show success toast
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = '✅ Profile Updated Successfully!';
+            btn.style.background = 'var(--success)';
 
-      const formData = {
-          userId: userId,
-          chronicConditions: document.getElementById('chronic-conditions').value,
-          allergies: document.getElementById('allergies').value,
-          medications: document.getElementById('medications').value,
-          pastSurgeries: document.getElementById('past-surgeries').value,
-          height: document.getElementById('height').value,
-          weight: document.getElementById('weight').value,
-          bloodGroup: document.getElementById('blood-group').value,
-          lifestyle: document.getElementById('lifestyle').value,
-          additionalInfo: document.getElementById('additional-info').value
-      };
-
-      // Send data to your backend API
-      const response = await fetch('http://localhost:3000/submit-medical-history', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-          alert(result.message);
-          window.location.href = 'homepage.html';
-      } else {
-          alert('Error: ' + result.message);
-      }
-  });
-</script>
-
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = '';
+            }, 3000);
+        });
+    </script>
 </body>
+
+</html>
+
 </html>

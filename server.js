@@ -3,11 +3,23 @@ const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const Groq = require("groq-sdk");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+// ✅ Initialize AI APIs
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : null;
+
+// ✅ Serve static files (HTML, CSS, JS, images)
+app.use(express.static(__dirname));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ✅ Connect to SQLite Database
 const db = new sqlite3.Database('./healthcare.db', (err) => {
@@ -51,8 +63,56 @@ db.run(`CREATE TABLE IF NOT EXISTS chat_history (
   timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 )`);
 
-// ✅ Initialize Google Gemini AI with Latest Model
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+// ✅ Ensure Appointments Table Exists
+db.run(`CREATE TABLE IF NOT EXISTS appointments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  userId INTEGER,
+  doctorName TEXT,
+  date TEXT,
+  time TEXT,
+  reason TEXT,
+  status TEXT DEFAULT 'PENDING',
+  FOREIGN KEY(userId) REFERENCES users(id)
+)`);
+
+// ✅ Ensure Medical Records Table Exists
+db.run(`CREATE TABLE IF NOT EXISTS medical_records (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  userId INTEGER,
+  filename TEXT,
+  originalName TEXT,
+  fileType TEXT,
+  fileSize INTEGER,
+  analysis TEXT,
+  uploadDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(userId) REFERENCES users(id)
+)`);
+
+// ✅ Multer Storage Config
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = path.join(__dirname, 'uploads');
+    if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage });
+
+// ✅ Ensure Medications Table Exists
+db.run(`CREATE TABLE IF NOT EXISTS medications (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  userId INTEGER,
+  name TEXT,
+  dosage TEXT,
+  schedule TEXT,
+  instructions TEXT,
+  lastTaken TEXT,
+  FOREIGN KEY(userId) REFERENCES users(id)
+)`);
+
 
 // ✅ SIGNUP Route
 app.post('/signup', async (req, res) => {
@@ -125,14 +185,40 @@ app.post('/chatbot', async (req, res) => {
     return res.status(400).json({ message: "User ID and message are required" });
   }
 
+  console.log(`🤖 AI Request from user ${userId}: "${message}"`);
+
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // ✅ Use the latest model
-    const result = await model.generateContent(message);
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey || apiKey.includes('your_api_key')) {
+      console.error("❌ AI Error: GEMINI_API_KEY is not set correctly in .env");
+      throw new Error('MISSING_API_KEY');
+    }
 
-    // ✅ Correct way to extract the text from the latest Gemini API response
-    const aiReply = result.response.candidates[0].content.parts[0].text;
+    // ✅ TRY GROQ FIRST (IF KEY EXISTS)
+    if (groq) {
+      console.log("🚀 Using Groq AI...");
+      const completion = await groq.chat.completions.create({
+        messages: [{ role: "user", content: message }],
+        model: "llama-3.3-70b-versatile",
+      });
+      aiReply = completion.choices[0].message.content;
+    }
+    // ✅ FALLBACK TO GEMINI
+    else {
+      console.log("🚀 Using Gemini AI...");
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+      const result = await model.generateContent(message);
+      const response = await result.response;
+      aiReply = response.text();
+    }
 
-    // ✅ Save chat history to the database
+    if (!aiReply) {
+      console.error("❌ AI Error: Empty response from Gemini");
+      throw new Error('EMPTY_RESPONSE');
+    }
+
+    console.log(`✅ AI Response: "${aiReply.substring(0, 50)}..."`);
+
     db.run(
       "INSERT INTO chat_history (userId, message, response) VALUES (?, ?, ?)",
       [userId, message, aiReply]
@@ -141,12 +227,175 @@ app.post('/chatbot', async (req, res) => {
     res.json({ reply: aiReply });
 
   } catch (error) {
-    console.error("❌ Google Gemini API Error:", error);
-    res.status(500).json({
-      reply: "⚠️ AI is temporarily unavailable. Please try again later."
-    });
+    console.error("❌ AI EXCEPTION:", error);
+
+    let userMsg = "⚠️ AI is temporarily unavailable.";
+    const errorMsg = error.message || "";
+
+    if (errorMsg.includes('MISSING_API_KEY')) {
+      userMsg = "⚠️ AI API Key is missing. Please check your .env file.";
+    } else if (errorMsg.includes('EMPTY_RESPONSE')) {
+      userMsg = "⚠️ AI failed to generate a response. Please try a different question.";
+    } else if (errorMsg.includes('429') || errorMsg.includes('quota')) {
+      userMsg = "⏳ AI Busy (Rate limit reached). Google limits free tier usage. Please wait 1-2 minutes and try again!";
+    } else if (errorMsg.includes('API_KEY_INVALID')) {
+      userMsg = "⚠️ The provided AI API Key is invalid.";
+    } else if (errorMsg.includes('limit')) {
+      userMsg = "⚠️ AI quota exceeded for today. Please try again tomorrow or check your AI Studio limits.";
+    }
+
+    res.status(500).json({ reply: userMsg, debug: error.message });
   }
 });
 
+// ✅ GET MEDICATIONS Route
+app.get('/medications/:userId', (req, res) => {
+  const { userId } = req.params;
+  db.all("SELECT * FROM medications WHERE userId = ?", [userId], (err, rows) => {
+    if (err) return res.status(500).json({ message: "Database error" });
+    res.json(rows);
+  });
+});
+
+// ✅ ADD MEDICATION Route
+app.post('/medications', (req, res) => {
+  const { userId, name, dosage, schedule, instructions } = req.body;
+  db.run(
+    "INSERT INTO medications (userId, name, dosage, schedule, instructions) VALUES (?, ?, ?, ?, ?)",
+    [userId, name, dosage, schedule, instructions],
+    function (err) {
+      if (err) return res.status(500).json({ message: "Database error" });
+      res.json({ message: "Medication added!", id: this.lastID });
+    }
+  );
+});
+
+// ✅ UPDATE MEDICATION DOSE Route
+app.post('/medications/take', (req, res) => {
+  const { medId } = req.body;
+  const now = new Date().toLocaleString();
+  db.run("UPDATE medications SET lastTaken = ? WHERE id = ?", [now, medId], (err) => {
+    if (err) return res.status(500).json({ message: "Database error" });
+    res.json({ message: "Dose recorded!", lastTaken: now });
+  });
+});
+
+// ✅ BOOK APPOINTMENT Route
+app.post('/appointments', (req, res) => {
+  const { userId, doctorName, date, time, reason } = req.body;
+  db.run(
+    "INSERT INTO appointments (userId, doctorName, date, time, reason) VALUES (?, ?, ?, ?, ?)",
+    [userId, doctorName, date, time, reason],
+    function (err) {
+      if (err) return res.status(500).json({ message: "Database error" });
+      res.json({ message: "Appointment booked successfully", id: this.lastID });
+    }
+  );
+});
+
+// ✅ GET APPOINTMENTS Route
+app.get('/appointments/:userId', (req, res) => {
+  const { userId } = req.params;
+  db.all("SELECT * FROM appointments WHERE userId = ? ORDER BY date DESC", [userId], (err, rows) => {
+    if (err) return res.status(500).json({ message: "Database error" });
+    res.json(rows);
+  });
+});
+
+// ✅ UPLOAD MEDICAL RECORD Route
+app.post('/upload-record', upload.single('record'), (req, res) => {
+  const { userId } = req.body;
+  const file = req.file;
+
+  if (!userId || !file) return res.status(400).json({ message: "User ID and file are required" });
+
+  db.run(
+    "INSERT INTO medical_records (userId, filename, originalName, fileType, fileSize) VALUES (?, ?, ?, ?, ?)",
+    [userId, file.filename, file.originalname, file.mimetype, file.size],
+    function (err) {
+      if (err) return res.status(500).json({ message: "Database error" });
+      res.json({
+        message: "File uploaded!",
+        record: { id: this.lastID, filename: file.filename, originalName: file.originalname, size: file.size }
+      });
+    }
+  );
+});
+
+// ✅ GET MEDICAL RECORDS Route
+app.get('/medical-records/:userId', (req, res) => {
+  const { userId } = req.params;
+  db.all("SELECT * FROM medical_records WHERE userId = ? ORDER BY uploadDate DESC", [userId], (err, rows) => {
+    if (err) return res.status(500).json({ message: "Database error" });
+    res.json(rows);
+  });
+});
+
+// ✅ ANALYZE MEDICAL RECORD Route (AI powered)
+app.post('/analyze-record', async (req, res) => {
+  const { recordId } = req.body;
+
+  db.get("SELECT * FROM medical_records WHERE id = ?", [recordId], async (err, record) => {
+    if (err || !record) return res.status(404).json({ message: "Record not found" });
+
+    try {
+      const filePath = path.join(__dirname, 'uploads', record.filename);
+      const fileData = fs.readFileSync(filePath);
+
+      let analysis = "";
+
+      // ✅ TRY GROQ VISION (IF KEY EXISTS AND IMAGE)
+      if (groq && record.fileType.includes('image')) {
+        console.log("🚀 Analyzing Image with Groq Vision...");
+        const base64Image = fileData.toString('base64');
+        const completion = await groq.chat.completions.create({
+          messages: [
+            {
+              role: "user",
+              content: [
+                { type: "text", text: "Analyze this medical report. Identify the type of report (e.g. Blood Test, X-Ray) and summarize the findings. If there are any abnormal values or health risks, point them out clearly. Return a professional medical analysis summary." },
+                {
+                  type: "image_url",
+                  image_url: {
+                    url: `data:${record.fileType};base64,${base64Image}`,
+                  },
+                },
+              ],
+            },
+          ],
+          model: "llama-3.2-11b-vision-preview",
+        });
+        analysis = completion.choices[0].message.content;
+      }
+      // ✅ FALLBACK TO GEMINI
+      else {
+        console.log("🚀 Analyzing with Gemini...");
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+        const result = await model.generateContent([
+          "Analyze this medical report. Identify the type of report (e.g. Blood Test, X-Ray) and summarize the findings. If there are any abnormal values or health risks, point them out clearly. Return a professional medical analysis summary.",
+          {
+            inlineData: {
+              data: fileData.toString('base64'),
+              mimeType: record.fileType
+            }
+          }
+        ]);
+        analysis = result.response.text();
+      }
+
+      db.run("UPDATE medical_records SET analysis = ? WHERE id = ?", [analysis, recordId]);
+      res.json({ analysis });
+
+    } catch (error) {
+      console.error("❌ Analysis Error:", error);
+      res.status(500).json({ message: "AI Analysis failed", debug: error.message });
+    }
+  });
+});
+
 // ✅ Start Server
-app.listen(3000, () => console.log('🚀 Server running on port 3000'));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🔗 Access the website at: http://localhost:${PORT}`);
+});

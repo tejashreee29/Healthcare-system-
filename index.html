@@ -1,238 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Healthcare Chatbot</title>
+    <meta name="description"
+        content="AI Healthcare - Next generation clinical management assistant powered by Google Gemini AI. Monitor vitals, evaluate symptoms and manage your health safely.">
+    <meta name="keywords" content="health assistant, AI healthcare, patient monitoring, symptom checker, clinical AI">
+    <title>AI Healthcare - Intelligent Health Assistant</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #0f2e4d; /* Consistent Background */
-            color: white;
-            text-align: center;
+        /* Animation keyframes and minor utility styles that are landing specific */
+        @keyframes drift {
+            from {
+                transform: translate(-10%, -10%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(20%, 30%) rotate(180deg);
+            }
         }
 
-        /* Navbar */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #1a3d5d;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    overflow: visible; /* Ensure nothing is cut off */
-    box-sizing: border-box; /* Include padding in the width calculation */
-}
+        @keyframes float-slow {
 
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-}
+            0%,
+            100% {
+                transform: translateY(0);
+            }
 
-.nav-links {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Proper spacing */
-    padding: 0;
-    margin: 0;
-    flex-wrap: wrap; /* Allows items to move to the next line if needed */
-    justify-content: flex-end;
-    max-width: 100%;
-}
-
-.nav-links li {
-    display: inline;
-    white-space: nowrap; /* Prevents text from breaking */
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    padding: 10px 12px;
-    transition: color 0.3s ease;
-}
-
-.nav-links a:hover {
-    color: #4cb5f5;
-}
-
-/* Responsive Navbar */
-@media (max-width: 850px) {
-    .navbar {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .nav-links {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-        width: 100%;
-    }
-}
-
-        /* Hero Section */
-        .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 90vh;
-            padding-top: 80px;
-        }
-
-        .hero h1 {
-            font-size: 50px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .hero p {
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
-
-        /* Chatbot Button */
-        .chatbot-btn {
-            margin-top: 20px;
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #4cb5f5; /* Lighter Blue */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .chatbot-btn:hover {
-            background-color: #8ac6d1;
-        }
-
-        /* "See How AI Healthcare Works" Button */
-        .how-it-works-btn {
-            margin-top: 15px;
-            font-size: 18px;
-            color: #4cb5f5;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
-            transition: color 0.3s ease;
-        }
-
-        .how-it-works-btn:hover {
-            color: #8ac6d1;
-        }
-
-        /* What Our Website Offers Section */
-        .offers-section {
-            padding: 60px 20px;
-            background-color: #0f2e4d; /* Consistent Background */
-            color: white;
-        }
-
-        .offers-section h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .offers-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 40px;
-        }
-
-        .offer {
-            width: 250px;
-            padding: 20px;
-            background: #1a3d5d; /* Matching Navbar */
-            border-radius: 8px;
-            text-align: center;
-            color: white;
-        }
-
-        .offer img {
-            width: 100%;
-            height: 150px;
-            border-radius: 8px;
-        }
-
-        .offer h3 {
-            font-size: 22px;
-            margin: 15px 0;
-        }
-
-        .offer p {
-            font-size: 16px;
-        }
-
-        /* Footer */
-        .footer {
-            background-color: #0f2e4d;
-            padding: 20px;
-            color: white;
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .footer a {
-            color: #4cb5f5;
-            text-decoration: none;
+            50% {
+                transform: translateY(-10px);
+            }
         }
     </style>
 </head>
-<body>
 
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="logo">AI Healthcare</div>
-        <ul class="nav-links">
-            <li><a href="signup.html">Signup</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="healthcare-tips.html">Healthcare Tips</a></li>
-        </ul>
-    </div>
+<body class="animate-fade">
 
-    <!-- Hero Section with Chatbot -->
-    <div class="hero">
-        <h1>When something feels off, AI can help</h1>
-        <p>We help people figure out health issues and find the right care</p>
-        <button class="chatbot-btn">Talk to AI Chatbot</button>
-    </div>
-
-    <!-- What Our Website Offers Section -->
-    <div class="offers-section">
-        <h2>What Our Website Offers</h2>
-        <div class="offers-container">
-            <div class="offer">
-                <h3>Symptom Checker</h3>
-                <p>Input your symptoms and get AI-powered insights.</p>
-            </div>
-            <div class="offer">          
-                <h3>Medical History</h3>
-                <p>View and update your past medical records.</p>
-            </div>
-            <div class="offer">
-            
-                <h3>AI Chatbot</h3>
-                <p>Get answers to your health-related queries instantly.</p>
+    <nav class="nav-landing">
+        <div class="nav-container">
+            <a href="index.html" class="logo"><span>🏥</span> AI Health</a>
+            <div style="display: flex; align-items: center; gap: 40px;">
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="login.html">Sign In</a></li>
+                </ul>
+                <a href="signup.html" class="btn btn-primary" style="padding: 12px 28px; font-weight: 700;">Get
+                    Started</a>
             </div>
         </div>
-        <a href="how-it-works.html" class="how-it-works-btn">See How AI Healthcare Works →</a>
-    </div>
+    </nav>
 
-    <!-- Footer -->
-    <div class="footer">
-        &copy; 2025 AI Healthcare Chatbot. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a>
-    </div>
+    <main>
+        <section class="hero-section">
+            <div class="bg-pattern"></div>
+            <div class="bg-mesh"></div>
+            <div class="floating-blob"></div>
+            <div class="container hero-container"
+                style="display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 900px; margin: 0 auto;">
+                <div class="hero-content">
+                    <span class="section-tag">Next Gen Care</span>
+                    <h1 style="font-size: 5rem; letter-spacing: -4px; margin-bottom: 20px;">Smart Care, <br>
+                        <span>Reimagined</span> by AI.
+                    </h1>
+                    <p
+                        style="font-size: 1.3rem; line-height: 1.7; margin-bottom: 50px; max-width: 700px; margin-left: auto; margin-right: auto;">
+                        Experience a new era of medical
+                        management. From intelligent symptom checking to real-time health
+                        tracking, your wellness journey starts here on a unified, high-security platform.</p>
+                    <div class="cta-buttons" style="justify-content: center;">
+                        <a href="signup.html" class="btn btn-primary"
+                            style="padding: 18px 40px; font-weight: 700; font-size: 1.1rem;">Get Started Free →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <section class="features" id="features">
+            <div class="container">
+                <div class="section-title" style="text-align: center;">
+                    <span class="section-tag" style="margin: 0 auto; display: block; width: fit-content;">Powerful
+                        Ecosystem</span>
+                    <h2 style="font-size: 4rem; letter-spacing: -2px;">Intelligent Health Suite</h2>
+                    <p style="color: #64748b; font-size: 1.3rem; max-width: 800px; margin: 0 auto; line-height: 1.7;">A
+                        complete clinical environment tailored for patients and professionals, designed to make complex
+                        healthcare simple.</p>
+                </div>
+                <div class="offers-grid">
+                    <div class="offer-card scroll-reveal">
+                        <div class="offer-icon">📈</div>
+                        <h3>Real-time Logs</h3>
+                        <p>Our intelligent system continuously monitors your vitals, providing deep insights through
+                            interactive visualizations and predictive analytics.</p>
+                    </div>
+                    <div class="offer-card scroll-reveal">
+                        <div class="offer-icon">🔮</div>
+                        <h3>AI Diagnostics</h3>
+                        <p>Powered by Gemini, our clinical assistant helps you evaluate symptoms with precision,
+                            offering immediate medical context and recommended next steps.</p>
+                    </div>
+                    <div class="offer-card scroll-reveal">
+                        <div class="offer-icon">🔒</div>
+                        <h3>Private Vault</h3>
+                        <p>Your medical data is encrypted with enterprise-grade security. Manage records, medications,
+                            and histories in a purely private ecosystem.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-landing">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="index.html" class="logo"><span>🏥</span> AI Health</a>
+                <p>Innovating clinical management through intelligent AI. A student-led engineering research project.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Platform</h4>
+                <ul class="footer-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="how-it-works.html">How it Works</a></li>
+                    <li><a href="about.html">Our Mission</a></li>
+                    <li><a href="contact-us.html">Support</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Core Tech</h4>
+                <ul class="footer-links">
+                    <li><a href="javascript:void(0)">Google Gemini AI</a></li>
+                    <li><a href="javascript:void(0)">Node.js Runtime</a></li>
+                    <li><a href="javascript:void(0)">SQLite Storage</a></li>
+                    <li><a href="javascript:void(0)">Charts.js V4</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Academic</h4>
+                <ul class="footer-links">
+                    <li><a href="javascript:void(0)">Year 2026 Showcase</a></li>
+                    <li><a href="javascript:void(0)">Research Paper</a></li>
+                    <li><a href="login.html" style="color: var(--secondary); font-weight: 700;">Admin Portal →</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>&copy; 2026 Student Engineering Project. Developed for educational contribution.</div>
+            <div class="footer-bottom-links">
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-conditions.html">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Reveal Implementation
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav-landing');
+            if (!nav) return;
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
 </body>
+
 </html>

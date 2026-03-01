@@ -1,236 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Help & Support - Healthcare Chatbot</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-      * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: 'Arial', sans-serif;
-      }
-
-      html, body {
-          height: 100%;
-          margin: 0;
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-          background-color: #ffffff;
-      }
-
-      .main-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          flex: 1;
-          position: relative;
-          height: 100vh;
-          background: linear-gradient(to right, #e0f7fa, #b2ebf2);
-          color: #333;
-          padding: 20px;
-      }
-
-      .content {
-          width: 100%;
-          max-width: 900px;
-          padding: 40px;
-          background: rgba(255, 255, 255, 0.9);
-          border-radius: 12px;
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-          backdrop-filter: blur(10px);
-          text-align: left;
-      }
-
-      h1 {
-          font-size: 36px;
-          margin-bottom: 10px;
-          color: #00796b;
-          text-align: center;
-      }
-
-      .help-section h2 {
-          font-size: 24px;
-          color: #004d40;
-          margin-top: 20px;
-      }
-
-      .faq-item {
-          margin-bottom: 20px;
-          border-bottom: 1px solid #ddd;
-          padding-bottom: 10px;
-      }
-
-      .faq-item h3 {
-          color: #00796b;
-          font-size: 20px;
-      }
-
-      .contact-info {
-          list-style: none;
-          padding: 0;
-      }
-
-      .contact-info li {
-          margin: 10px 0;
-          font-size: 18px;
-      }
-
-      .btn-primary {
-          display: inline-block;
-          margin-top: 15px;
-          padding: 10px 20px;
-          background-color: #00796b;
-          color: white;
-          text-decoration: none;
-          border-radius: 5px;
-      }
-
-      .btn-primary:hover {
-          background-color: #005a4f;
-      }
-
-      .hamburger-menu {
-          position: fixed;
-          top: 20px;
-          left: 20px;
-          cursor: pointer;
-          font-size: 30px;
-          color: #00796b;
-          z-index: 10;
-      }
-
-      .hamburger-popup {
-          display: none;
-          position: fixed;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 280px;
-          background: linear-gradient(to bottom, #e0f7fa, #b2ebf2);
-          color: #333;
-          padding: 40px;
-          box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
-          transition: transform 0.3s ease-in-out;
-          transform: translateX(-100%);
-          overflow-y: auto;
-          backdrop-filter: blur(10px);
-      }
-
-      .hamburger-popup.active {
-          transform: translateX(0);
-          display: block;
-      }
-
-      .hamburger-popup ul {
-          list-style: none;
-          padding: 0;
-          margin-top: 40px;
-          text-align: left;
-      }
-
-      .hamburger-popup ul li {
-          margin: 20px 0;
-          font-size: 20px;
-      }
-
-      .hamburger-popup ul li a {
-          color: #004d40;
-          text-decoration: none;
-          display: block;
-          font-weight: bold;
-      }
-
-      .hamburger-popup ul li a:hover {
-          text-decoration: underline;
-          color: #00796b;
-      }
-
-      .close-menu {
-          position: absolute;
-          top: 20px;
-          right: 20px;
-          cursor: pointer;
-          font-size: 30px;
-          color: white;
-      }
-
-      footer {
-          margin-top: 20px;
-          text-align: center;
-          font-size: 14px;
-          color: #333;
-      }
-
-  </style>
 </head>
-<body>
 
-  <!-- Hamburger Menu -->
-  <div class="hamburger-menu" onclick="toggleMenu()">&#9776;</div>
+<body class="animate-fade">
 
-  <div class="main-container">
-    <div class="content">
-      <header>
-        <h1>Help & Support</h1>
-        <p>If you have any questions or need assistance, you're in the right place. Here's how you can get help:</p>
-      </header>
+  <aside class="sidebar">
+    <div class="logo-container">
+      <div class="logo-icon">🏥</div>
+      <h2>AI Health</h2>
+    </div>
 
-      <!-- Help Section -->
-      <section class="help-section">
-        <h2>Frequently Asked Questions (FAQ)</h2>
+    <ul class="sidebar-nav">
+      <li><a href="dashboard.html"><span>📊</span> Dashboard</a></li>
+      <li><a href="aichatbot.html"><span>🤖</span> AI Chatbot</a></li>
+      <li><a href="appointments.html"><span>📅</span> Smart Schedule</a></li>
+      <li><a href="medications.html"><span>💊</span> Medications</a></li>
+      <li><a href="health-tracker.html"><span>📈</span> Health Tracker</a></li>
+      <li><a href="nearby-hospitals.html"><span>🏥</span> Nearby Hospitals</a></li>
+      <li><a href="medicalhistory.html"><span>📋</span> Medical History</a></li>
+      <li><a href="settings.html"><span>⚙️</span> Settings</a></li>
+    </ul>
+
+    <div class="logout">
+      <a href="#" onclick="logout()"><span>🚪</span> Logout</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header style="margin-bottom: 40px;">
+      <h1>Help & Support</h1>
+      <p style="color: var(--text-muted);">Get answers and assistance for your health journey</p>
+    </header>
+
+    <div class="glass" style="max-width: 900px; padding: 40px; border-radius: var(--border-radius);">
+      <div class="help-section">
+        <h2 style="color: var(--primary); margin-bottom: 25px;">Frequently Asked Questions (FAQ)</h2>
         <div class="faq">
-          <div class="faq-item">
-            <h3>How do I use the AI Chatbot?</h3>
-            <p>Our AI chatbot can assist you by answering questions about symptoms, providing medical history tracking, and offering healthcare tips. Simply start a chat, describe your symptoms, and receive personalized advice.</p>
+          <div class="faq-item glass"
+            style="padding: 20px; margin-bottom: 20px; border-radius: var(--border-radius-sm);">
+            <h3 style="color: var(--secondary); margin-bottom: 10px;">How do I use the AI Chatbot?</h3>
+            <p style="color: var(--text-muted);">Our AI chatbot can assist you by answering questions about symptoms,
+              providing medical history tracking, and offering healthcare tips. Simply start a chat and receive
+              personalized advice.</p>
           </div>
-          <div class="faq-item">
-            <h3>What is the Symptoms Checker?</h3>
-            <p>The Symptoms Checker helps you input your symptoms and receive potential solutions or advice. Please note that the information is for educational purposes and should not replace professional medical advice.</p>
-          </div>
-          <div class="faq-item">
-            <h3>Can I track my medical history?</h3>
-            <p>Yes, you can fill out a medical history form to keep track of your health details. This will help you easily reference important information during consultations with your healthcare provider.</p>
+          <div class="faq-item glass"
+            style="padding: 20px; margin-bottom: 20px; border-radius: var(--border-radius-sm);">
+            <h3 style="color: var(--secondary); margin-bottom: 10px;">What is the Smart Schedule?</h3>
+            <p style="color: var(--text-muted);">The Smart Schedule uses AI to recommend daily health tasks like
+              hydration, movement, and meditation based on your health profile and goals.</p>
           </div>
         </div>
 
-        <h2>Contact Us</h2>
-        <ul class="contact-info">
-          <li>Email: support@healthcarechatbot.com</li>
-          <li>Phone: +1 (800) 123-4567</li>
-          <li>Live Chat: Available through the chatbot on the website</li>
-        </ul>
+        <h2 style="color: var(--primary); margin: 30px 0 20px;">Contact Us</h2>
+        <div class="glass" style="padding: 20px; border-radius: var(--border-radius-sm);">
+          <p style="margin-bottom: 10px;">📧 <strong>Email:</strong> support@healthcarechatbot.com</p>
+          <p style="margin-bottom: 10px;">📞 <strong>Phone:</strong> +1 (800) 123-4567</p>
+          <p>💬 <strong>Live Chat:</strong> Available through the AI Chatbot page</p>
+        </div>
 
-        <h2>Technical Support</h2>
-        <p>If you encounter any technical issues, please reach out through our technical support form.</p>
-        <a href="technical-support.html" class="btn-primary">Go to Technical Support</a>
-      </section>
+        <div style="margin-top: 40px;">
+          <a href="technical-support.html" class="btn btn-primary">Go to Technical Support</a>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <!-- Hamburger Menu Popup -->
-  <div id="hamburger-popup" class="hamburger-popup">
-    <div class="close-menu" onclick="toggleMenu()">&times;</div>
-    <ul>
-      <li><a href="index.html">Homepage</a></li>
-      <li><a href="aichatbot.html">AI Chatbot</a></li>
-      <li><a href="symptoms-checker.html">Symptoms Checker</a></li>
-      <li><a href="medicalhistory.html">Medical History Form</a></li>
-      <li><a href="healthcare-tips.html">Healthcare & Mental Health Tips</a></li>
-      <li><a href="emergency-contacts.html">Emergency Contacts</a></li>
-      <li><a href="settings.html">Settings</a></li>
-    </ul>
-  </div>
+  </main>
 
   <script>
-    function toggleMenu() {
-        document.getElementById('hamburger-popup').classList.toggle('active');
+    function logout() {
+      localStorage.clear();
+      window.location.href = 'index.html';
     }
   </script>
-
 </body>
+
 </html>
