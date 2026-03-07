@@ -89,9 +89,12 @@
             <li><a href="dashboard.html"><span>📊</span> Dashboard</a></li>
             <li><a href="aichatbot.html"><span>🤖</span> AI Chatbot</a></li>
             <li><a href="symptoms-checker.html" class="active"><span>🤒</span> AI Diagnostic</a></li>
-            <li><a href="healthcare-tips.html"><span>💡</span> Wellness Tips</a></li>
-            <li><a href="medicalhistory.html"><span>📋</span> History</a></li>
-            <li><a href="nearby-hospitals.html"><span>🏥</span> Hospitals</a></li>
+            <li><a href="appointments.html"><span>📅</span> Smart Schedule</a></li>
+            <li><a href="medications.html"><span>💊</span> Medications</a></li>
+            <li><a href="health-tracker.html"><span>📈</span> Health Tracker</a></li>
+            <li><a href="nearby-hospitals.html"><span>🏥</span> Nearby Hospitals</a></li>
+            <li><a href="medicalrecords.html"><span>📂</span> Medical Records</a></li>
+            <li><a href="medicalhistory.html"><span>📋</span> Medical History</a></li>
             <li><a href="settings.html"><span>⚙️</span> Settings</a></li>
         </ul>
         <div class="logout">
@@ -109,32 +112,46 @@
 
         <div class="diagnostic-card">
             <h2 style="margin-bottom: 20px;">What are you feeling today?</h2>
-            <p style="color: var(--text-muted); margin-bottom: 30px;">Select all symptoms that apply to you. Our
-                Python-based Decision Tree model will analyze these patterns.</p>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Describe your symptoms in detail, or select from
+                the presets below.</p>
 
-            <div id="symptoms-list" style="margin-bottom: 40px;">
+            <div class="input-group" style="margin-bottom: 30px; position: relative;">
+                <textarea id="symptom-text" placeholder="e.g. I have a sharp pain in my chest and feel dizzy..."
+                    style="width: 100%; height: 120px; padding: 20px; border-radius: 15px; border: 2px solid #e2e8f0; font-family: inherit; font-size: 1rem; resize: none; transition: var(--transition);"></textarea>
+                <button id="voice-btn" onclick="startVoiceRecognition()"
+                    style="position: absolute; bottom: 15px; right: 15px; background: var(--bg-gradient); border: none; width: 50px; height: 50px; border-radius: 50%; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: var(--transition);">
+                    🎤
+                </button>
+            </div>
+
+            <div id="symptoms-list" style="margin-bottom: 40px; display: flex; flex-wrap: wrap; gap: 5px;">
                 <!-- Symptoms will be generated -->
             </div>
 
-            <button onclick="analyzeSymptoms()" class="btn btn-primary"
+            <button onclick="analyzeSymptoms()" class="btn btn-primary" id="analyze-btn"
                 style="width: 100%; padding: 20px; font-size: 1.1rem; font-weight: 700;">
                 Run AI Analysis 🔬
             </button>
 
             <div class="loading-spinner" id="loader">
                 <div class="spinner"></div>
-                <p>Consulting ML Model...</p>
+                <p id="loader-text">Consulting ML Model...</p>
             </div>
 
             <div class="result-panel" id="result-panel">
-                <h3 id="result-condition" style="color: var(--bg-dark); margin-bottom: 15px; font-size: 1.5rem;"></h3>
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                    <h3 id="result-condition" style="color: var(--bg-dark); margin: 0; font-size: 1.5rem;"></h3>
+                    <span id="severity-badge"
+                        style="padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase;"></span>
+                </div>
                 <p id="result-confidence" style="font-weight: 700; color: var(--primary); margin-bottom: 10px;"></p>
                 <p id="result-recommendation" style="line-height: 1.6; color: var(--text-muted);"></p>
 
                 <div
                     style="margin-top: 20px; padding: 15px; background: rgba(245, 158, 11, 0.1); border-radius: 10px; border: 1px solid rgba(245, 158, 11, 0.2); display: flex; gap: 10px; align-items: center;">
                     <span>⚠️</span>
-                    <p style="font-size: 0.85rem; color: #92400e;">This is an AI prediction. Not a professional
+                    <p style="font-size: 0.85rem; color: #92400e;">This is an AI prediction based on your description.
+                        Not a professional
                         diagnosis.</p>
                 </div>
             </div>
@@ -145,11 +162,15 @@
         const symptomsArr = [
             "itching", "skin_rash", "continuous_sneezing", "shivering",
             "stomach_pain", "acidity", "vomiting", "fatigue",
-            "weight_loss", "cough", "high_fever", "headache", "chest_pain"
+            "weight_loss", "cough", "high_fever", "headache", "chest_pain",
+            "muscle_pain", "nausea", "loss_of_appetite", "burning_micturition",
+            "spotting_urination", "joint_pain"
         ];
 
         const symptomsList = document.getElementById('symptoms-list');
+        const symptomTextArea = document.getElementById('symptom-text');
         const selectedSymptoms = new Set();
+        const voiceBtn = document.getElementById('voice-btn');
 
         // Generate Tags
         symptomsArr.forEach(s => {
@@ -160,41 +181,131 @@
                 span.classList.toggle('active');
                 if (selectedSymptoms.has(s)) selectedSymptoms.delete(s);
                 else selectedSymptoms.add(s);
+
+                // If user selects tags, clear text area to avoid confusion or append them?
+                // Let's just let them use both, but priority to text if long.
             };
             symptomsList.appendChild(span);
         });
 
+        // Voice Recognition
+        let recognition;
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = () => {
+                voiceBtn.innerHTML = '🛑';
+                voiceBtn.style.animation = 'pulse 1.5s infinite';
+                symptomTextArea.placeholder = "Listening...";
+            };
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                symptomTextArea.value += (symptomTextArea.value ? ' ' : '') + transcript;
+            };
+
+            recognition.onend = () => {
+                voiceBtn.innerHTML = '🎤';
+                voiceBtn.style.animation = 'none';
+                symptomTextArea.placeholder = "e.g. I have a sharp pain in my chest and feel dizzy...";
+            };
+
+            recognition.onerror = (event) => {
+                console.error("Speech recognition error", event.error);
+                voiceBtn.innerHTML = '🎤';
+                voiceBtn.style.animation = 'none';
+            };
+        }
+
+        function startVoiceRecognition() {
+            if (!recognition) {
+                alert("Speech recognition not supported in this browser.");
+                return;
+            }
+            try {
+                recognition.start();
+            } catch (e) {
+                recognition.stop();
+            }
+        }
+
         async function analyzeSymptoms() {
-            if (selectedSymptoms.size === 0) {
-                alert("Please select at least one symptom.");
+            const textDescription = symptomTextArea.value.trim();
+            const tags = Array.from(selectedSymptoms);
+
+            if (textDescription.length < 5 && tags.length === 0) {
+                alert("Please describe your symptoms or select from the presets.");
                 return;
             }
 
             const loader = document.getElementById('loader');
+            const loaderText = document.getElementById('loader-text');
             const panel = document.getElementById('result-panel');
 
             loader.style.display = 'block';
             panel.style.display = 'none';
+            loaderText.innerText = textDescription.length > 5 ? "AI analyzing your description..." : "Consulting ML Model...";
 
             try {
-                const response = await fetch('/predict-symptoms', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ symptoms: Array.from(selectedSymptoms) })
-                });
+                let response;
+                let data;
 
-                const data = await response.json();
+                // If user provided detailed text, use the advanced AI route
+                if (textDescription.length > 5) {
+                    response = await fetch('/analyze-symptoms-text', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            userId: localStorage.getItem('userId'),
+                            text: textDescription + (tags.length > 0 ? ". Presets selected: " + tags.join(', ') : "")
+                        })
+                    });
+                } else {
+                    // Use the classic ML route for tags
+                    response = await fetch('/predict-symptoms', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ symptoms: tags })
+                    });
+                }
 
-                document.getElementById('result-condition').innerText = `Potential Condition: ${data.condition}`;
-                document.getElementById('result-confidence').innerText = `AI Confidence: ${data.confidence}`;
-                document.getElementById('result-recommendation').innerText = data.recommendation;
+                data = await response.json();
 
-                panel.style.display = 'block';
+                if (response.ok) {
+                    document.getElementById('result-condition').innerText = `Potential Condition: ${data.condition}`;
+                    document.getElementById('result-confidence').innerText = `AI Confidence: ${data.confidence}`;
+                    document.getElementById('result-recommendation').innerText = data.recommendation;
+
+                    const badge = document.getElementById('severity-badge');
+                    if (data.severity) {
+                        badge.innerText = data.severity;
+                        badge.style.display = 'inline-block';
+                        badge.style.background = getSeverityColor(data.severity);
+                        badge.style.color = 'white';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+
+                    panel.style.display = 'block';
+                    panel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    throw new Error(data.message || "Analysis failed");
+                }
             } catch (error) {
-                alert("ML Service is offline. Please ensure the Python backend is running.");
+                alert("Error: " + error.message);
             } finally {
                 loader.style.display = 'none';
             }
+        }
+
+        function getSeverityColor(sev) {
+            const s = sev.toLowerCase();
+            if (s.includes('emergency') || s.includes('high')) return '#ef4444';
+            if (s.includes('moderate')) return '#f59e0b';
+            return '#10b981'; // Low/Green
         }
 
         function logout() {
@@ -206,6 +317,24 @@
             window.location.href = 'login.html';
         }
     </script>
+    <style>
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(45, 206, 177, 0.7);
+            }
+
+            70% {
+                transform: scale(1.1);
+                box-shadow: 0 0 0 15px rgba(45, 206, 177, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(45, 206, 177, 0);
+            }
+        }
+    </style>
 </body>
 
 </html>

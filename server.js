@@ -407,11 +407,93 @@ app.post('/predict-symptoms', async (req, res) => {
     const response = await axios.post('http://localhost:8000/predict', { symptoms });
     res.json(response.data);
   } catch (error) {
-    console.error("❌ Python ML Service Error:", error.message);
-    res.status(500).json({
-      message: "ML Service unavailable",
-      fallback: "Try our Gemini-powered AI Chatbot for symptom evaluation."
-    });
+    console.warn("⚠️ Python ML Service offline. Falling back to Gemini/Groq...");
+
+    // Fallback logic using Gemini/Groq
+    try {
+      const prompt = `
+        Analyze these symptoms: ${symptoms.join(', ')}
+        
+        Provide a response in JSON format:
+        1. "condition": A likely condition.
+        2. "confidence": "AI Fallback Prediction".
+        3. "recommendation": Professional but cautious advice.
+        4. "severity": (Low/Moderate/High).
+      `;
+
+      let resultJson;
+      if (groq) {
+        const completion = await groq.chat.completions.create({
+          messages: [{ role: "user", content: prompt }],
+          model: "llama-3.3-70b-versatile",
+          response_format: { type: "json_object" }
+        });
+        resultJson = JSON.parse(completion.choices[0].message.content);
+      } else {
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+        const result = await model.generateContent(prompt);
+        const responseText = result.response.text().replace(/```json|```/g, '').trim();
+        resultJson = JSON.parse(responseText);
+      }
+      res.json(resultJson);
+    } catch (aiError) {
+      console.error("❌ AI Fallback also failed:", aiError);
+      res.status(500).json({
+        message: "ML Service and AI Fallback unavailable",
+        debug: "Please ensure the Node and Python servers are properly configured."
+      });
+    }
+  }
+});
+
+// ✅ FREE-FORM SYMPTOM ANALYSIS Route (Gemini/Groq)
+app.post('/analyze-symptoms-text', async (req, res) => {
+  const { userId, text } = req.body;
+
+  if (!text) {
+    return res.status(400).json({ message: "Symptom description is required" });
+  }
+
+  console.log(`🔍 AI Symptom Analysis for user ${userId}: "${text}"`);
+
+  try {
+    const prompt = `
+      You are an expert AI Medical Diagnostic Assistant. 
+      Analyze the following symptoms described by a user: "${text}"
+      
+      Provide a response in JSON format with the following keys:
+      1. "condition": A likely condition or category of issue.
+      2. "confidence": A high/medium/low assessment based on description.
+      3. "recommendation": Professional but cautious advice on what to do next.
+      4. "severity": (Low/Moderate/High/Emergency).
+      
+      Important: Add a disclaimer that this is not a professional diagnosis.
+    `;
+
+    let resultJson;
+
+    if (groq) {
+      const completion = await groq.chat.completions.create({
+        messages: [{ role: "user", content: prompt }],
+        model: "llama-3.3-70b-versatile",
+        response_format: { type: "json_object" }
+      });
+      resultJson = JSON.parse(completion.choices[0].message.content);
+    } else {
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      let textResponse = response.text();
+      // Clean up markdown if AI returns it
+      textResponse = textResponse.replace(/```json|```/g, '').trim();
+      resultJson = JSON.parse(textResponse);
+    }
+
+    res.json(resultJson);
+
+  } catch (error) {
+    console.error("❌ Symptom Analysis Error:", error);
+    res.status(500).json({ message: "AI Analysis failed", debug: error.message });
   }
 });
 
